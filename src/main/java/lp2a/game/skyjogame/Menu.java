@@ -17,17 +17,16 @@ public class Menu {
 
     public Menu() {
 
-
-
         // Créer une fenêtre pour afficher le menu
         stage = new Stage();
+        playersList.getItems().add("Player 1");
 
         // Créer un bouton pour ajouter un joueur
         Button addButton = new Button("Ajouter Joueur");
         addButton.setDisable(false);
         addButton.setOnAction(e -> {
             // Ajouter le joueur à la liste des joueurs
-            playersList.getItems().add(addPlayerField.getText());
+            if (!addPlayerField.getText().isEmpty()) playersList.getItems().add(addPlayerField.getText());
             // Effacer le champ de texte pour ajouter un joueur
             addPlayerField.clear();
         });
@@ -45,7 +44,7 @@ public class Menu {
 
         // Créer un bouton pour modifier le pseudo d'un joueur sélectionné
         Button editButton = new Button("Modifier Pseudo");
-        editButton.setDisable(true);
+        editButton.setDisable(false);
         editButton.setOnAction(e -> {
             // Obtenir l'index du joueur sélectionné
             int selectedIndex = playersList.getSelectionModel().getSelectedIndex();
@@ -79,8 +78,8 @@ public class Menu {
 
         // Créer un bouton pour supprimer un bot
         Button removeBotButton = new Button("Supprimer Bot");
-        removeButton.setDisable(true);
-        removeButton.setOnAction(e -> {
+        removeBotButton.setDisable(true);
+        removeBotButton.setOnAction(e -> {
             // Supprimer le dernier bot ajouté de la liste des bots
             int lastIndex = botslist.getItems().size() - 1;
             botslist.getItems().remove(lastIndex);
@@ -88,7 +87,7 @@ public class Menu {
 
         // Créer un bouton pour lancer la partie
         Button startButton = new Button("Lancer la partie");
-        startButton.setDisable(true);
+        startButton.setDisable(false);
         startButton.setOnAction(e -> {
             start = true;
             stage.close();
@@ -98,8 +97,10 @@ public class Menu {
         playersList.getItems().addListener((ListChangeListener<String>) c -> {
             if (playersList.getItems().size() >= 1) {
                 editButton.setDisable(false);
-                removeButton.setDisable(false);
                 startButton.setDisable(false);
+            }
+            if (playersList.getItems().size() >= 2){
+                removeButton.setDisable(false);
             }
             else {
                 editButton.setDisable(true);
@@ -120,11 +121,11 @@ public class Menu {
             else {
                 removeBotButton.setDisable(true);
             }
-            if (playersList.getItems().size() + botslist.getItems().size() >= 8){
-                addBotButton.setDisable(true);
+            if ( playersList.getItems().size() + botslist.getItems().size() < 8){
+                addBotButton.setDisable(false);
             }
             else {
-                addBotButton.setDisable(false);
+                addBotButton.setDisable(true);
             }
         });
 
