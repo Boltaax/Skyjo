@@ -48,7 +48,6 @@ public class CardDeck {
         return c;
     }
 
-
     //1st deal
     public void deal(List<Player> players) {
         for (Player player : players) {

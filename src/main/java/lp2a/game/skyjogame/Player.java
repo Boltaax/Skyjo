@@ -15,7 +15,7 @@ public class Player {
 
     public Player() {
         this.points = 0;
-        this.name = "test";
+        this.name = "Vous";
         this.hand = new ArrayList<>();
     }
 
