@@ -87,7 +87,7 @@ public class Menu {
 
         // Créer un bouton pour lancer la partie
         Button startButton = new Button("Lancer la partie");
-        startButton.setDisable(false);
+        startButton.setDisable(true);
         startButton.setOnAction(e -> {
             start = true;
             stage.close();
@@ -158,6 +158,7 @@ public class Menu {
         // Afficher la VBox dans la fenêtre pour afficher le menu
         Scene menuScene = new Scene(menuBox, Skyjo.XMAX, Skyjo.YMAX);
         stage.setScene(menuScene);
+        stage.setTitle("Menu Skyjo");
     }
 
     public void show() {

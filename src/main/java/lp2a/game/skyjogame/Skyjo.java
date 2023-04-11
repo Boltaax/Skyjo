@@ -19,15 +19,13 @@ import java.util.List;
 
 
 public class Skyjo extends Application {
-
-    static int turn;
     static boolean gameOver = false;
     static int XMAX = 1500;
     static int YMAX = 800;
     private List<Player> players = new ArrayList<>();
-    private CardDeck deck = new CardDeck();
+    private CardDeck deck = new CardDeck(false);
+    private CardDeck draw = new CardDeck(true);
     private Menu menu = new Menu();
-    private int currentPlayerIndex = 0;
 
     private boolean isGameFinished() {
         for (Player player : players) {
@@ -71,6 +69,7 @@ public class Skyjo extends Application {
     @Override
     public void start(Stage stage) {
         try {
+
             VBox root = new VBox();
             Canvas plate = new Canvas(XMAX, YMAX);
             GraphicsContext gc = plate.getGraphicsContext2D();
@@ -109,6 +108,7 @@ public class Skyjo extends Application {
             players.add(p);
             deck.deal(players);
 
+
             for(int i = 0; i < players.size(); i++){
                 displayPlayer(i);
                 players.get(i).fillGrid();
@@ -119,6 +119,7 @@ public class Skyjo extends Application {
             // Primary Scene
             stage.setScene(scene);
             stage.setTitle("Skyjo");
+            //menu.show();
             stage.show();
         } catch (Exception e) {
             System.out.println(e);
@@ -130,7 +131,9 @@ public class Skyjo extends Application {
     public void tick(GraphicsContext gc){
 
         drawPlate(gc);
-        players.get(0).drawHand(gc);
+        for (Player p : players){
+            p.drawHand(gc);
+        }
     }
 
     public static void main(String[] args) {

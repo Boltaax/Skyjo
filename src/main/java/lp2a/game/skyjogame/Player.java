@@ -25,6 +25,15 @@ public class Player {
         this.hand = new ArrayList<>();
     }
 
+    public boolean getAllVisibleCards(){
+        for (Card card : hand) {
+            if(!card.isVisible()){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void addCard(Card card) {
         this.hand.add(card);
     }
@@ -77,7 +86,9 @@ public class Player {
     public int calculatePoints() {
         int totalPoints = 0;
         for (Card card : hand) {
-            totalPoints += card.getValue();
+            if(card.isVisible()){
+                totalPoints += card.getValue();
+            }
         }
         return totalPoints;
     }
@@ -87,6 +98,8 @@ public class Player {
             c.draw(gc);
         }
     }
+
+
 
     @Override
     public String toString() {

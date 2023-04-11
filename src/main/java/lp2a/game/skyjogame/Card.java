@@ -4,6 +4,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Card {
+
+    private Runnable runnable;
     private int value;
     private String name;
     private boolean visible;
@@ -11,11 +13,21 @@ public class Card {
     private int y = 0;
     private int width = 60;
     private int height = 100;
+    private boolean clicked = false;
 
     public Card(int value, String name) {
         this.value = value;
         this.name = name;
         this.visible = false;
+        this.runnable = () -> this.setClicked(true);
+    }
+
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
     }
 
     public int getValue() {
@@ -38,6 +50,10 @@ public class Card {
 
     public int getWidth() {
         return width;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public int getX() {
