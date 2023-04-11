@@ -48,6 +48,10 @@ public class CardDeck {
         return c;
     }
 
+    public void addCard(Card card) {
+        cards.add(card);
+    }
+
 
     //1st deal
     public void deal(List<Player> players) {
