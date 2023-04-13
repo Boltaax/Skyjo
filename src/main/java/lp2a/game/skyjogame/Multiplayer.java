@@ -59,11 +59,36 @@ public class Multiplayer {
     private void game(){
         // round 1
         while(currentPlayer().getHandSize() != 0 || !currentPlayer().getAllVisibleCards()){
-            // CLIC SUR LE DECK OU NON
-            // CLIC SUR UNE CARTE DE TA MAIN
-            // SI VISIBLE : ECHANGE DERNIERE CARTE DEFAUSSE
-            // SI NON  : AFFICHE CARTE
+            // Soit click sur la pile de draw et click sur une carte de sa main, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw
+            // Soit click sur la pile de discard, une carte et revele sur la pile de draw et le joueur click sur une carte de sa main
+            // Si la carte est visible, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw
+            // Sinon, le joueur choisi de l'echanger ou non? Si oui, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw. Si non, la carte du joueur est revelee
 
+            if (pileDrawClicked) {
+                // Attendre le click du joueur sur une carte de sa main
+                if (cardClicked) {
+                    // Ajouter la carte de la pile de draw a la main du joueur
+                    // Ajouter la carte de la main du joueur a la pile de draw
+                    // code:
+                }
+            } else if (pileDiscardClicked) {
+                // Attendre le click du joueur sur une carte de sa main
+                if (cardClicked) {
+                    // Si la carte est visible
+                    if (cardVisible) {
+                        // Ajouter la carte de la pile de discard a la main du joueur
+                        // Ajouter la carte de la main du joueur a la pile de discard
+                    } else {
+                        // Attendre le click du joueur sur "echanger" ou "ne pas echanger"
+                        if (echangerClicked) {
+                            // Ajouter la carte de la pile de discard a la main du joueur
+                            // Ajouter la carte de la main du joueur a la pile de discard
+                        } else if (nePasEchangerClicked) {
+                            // Revele la carte du joueur
+                        }
+                    }
+                }
+            }
 
             // Next Player
             if(CurrentPlayerIndex < players.size()+bots.size()-1){
