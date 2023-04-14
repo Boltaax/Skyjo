@@ -111,6 +111,21 @@ public class Player {
         }
     }
 
+    // Choose n cards from the hand by clicking on them
+    public List<Card> chooseCards(int nbr){
+        List<Card> chosenCards = new ArrayList<>();
+        // We wait for the player to click on the cards he wants to choose
+        while(chosenCards.size() < nbr){
+            for(Card c : hand){
+                if(c.isClicked()){
+                    chosenCards.add(c);
+                    c.setClicked(false);
+                }
+            }
+        }
+        return chosenCards;
+    }
+
     @Override
     public String toString() {
         return name;

@@ -65,6 +65,7 @@ public class Multiplayer {
             // Si la carte est visible, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw
             // Sinon, le joueur choisi de l'echanger ou non? Si oui, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw. Si non, la carte du joueur est revelee
 
+            /*
             if (pileDrawClicked) {
                 // Attendre le click du joueur sur une carte de sa main
                 if (cardClicked) {
@@ -90,7 +91,7 @@ public class Multiplayer {
                     }
                 }
             }
-
+            */
             // Next Player
             if(CurrentPlayerIndex < players.size()+bots.size()-1){
                 CurrentPlayerIndex++;
