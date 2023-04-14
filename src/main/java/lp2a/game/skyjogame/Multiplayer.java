@@ -55,49 +55,56 @@ public class Multiplayer {
 
         // round 1
         while(currentPlayer().getHandSize() != 0 || !currentPlayer().getAllVisibleCards()){
-            // Soit click sur la pile de draw et click sur une carte de sa main, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw
-            // Soit click sur la pile de discard, une carte et revele sur la pile de draw et le joueur click sur une carte de sa main
-            // Si la carte est visible, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw
-            // Sinon, le joueur choisi de l'echanger ou non? Si oui, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw. Si non, la carte du joueur est revelee
+            // Wait for the player to click on the deck or the discard pile
+            while (!deck.isClicked() && !discard.isClicked()) { // not good
+                // Attendre le click du joueur sur la pile de draw ou sur la pile de discard
+            }
 
-            if (deck.isClicked()) {
+            if (discard.isClicked()) {
                 // Attendre le click du joueur sur une carte de sa main
                 Card clickedCard = currentPlayer().clickOnCard();
-                if (clickedCard != null) {
-                    // Ajouter la carte de la pile de draw a la main du joueur
-                    currentPlayer().addCard(deck.pick_up_card()); //add a replace method instead
-                    // Ajouter la carte de la main du joueur a la pile de discard
-                    discard.addCard(clickedCard);
-                }
+                // Ajouter la carte de la pile de draw a la main du joueur
+                currentPlayer().replaceCard(clickedCard, discard.pick_up_card());
+                // Ajouter la carte de la main du joueur a la pile de discard
+                discard.addCard(clickedCard);
                 deck.setClicked(false);
-            } else if (discard.isClicked()) {
-                // Attendre le click du joueur sur une carte de sa main
-                Card clickedCard = currentPlayer().clickOnCard();
-                if (clickedCard != null) {
-                    // Si la carte est visible
-                    if (clickedCard.isVisible()) {
+            } else if (deck.isClicked()) {
+                // Add the card to the discard pile
+                discard.addCard(deck.pick_up_card());
+                // Attendre le click du joueur sur une carte de sa main ou sur la pile de discard
+                while (!discard.isClicked() && !currentPlayer().hasClickedOnCard()) { // not good
+                    // Attendre le click du joueur sur la pile de draw ou sur la pile de discard
+                }
+                if (discard.isClicked()) {
+                    // Attendre le click du joueur sur une carte de sa main
+                    Card clickedCard = currentPlayer().clickOnCard();
+                    if (clickedCard != null) {
                         // Ajouter la carte de la pile de draw a la main du joueur
-                        currentPlayer().addCard(deck.pick_up_card()); //add a replace method instead
+                        currentPlayer().replaceCard(clickedCard, discard.pick_up_card());
                         // Ajouter la carte de la main du joueur a la pile de discard
                         discard.addCard(clickedCard);
-                    } else {
-                        /*
-                        // Attendre le click du joueur sur "echanger" ou "ne pas echanger"
-                        if (askForExchange()) {
-                            // Ajouter la carte de la pile de discard a la main du joueur
-                            // Ajouter la carte de la main du joueur a la pile de discard
-                        } else  {
-                            // Revele la carte du joueur
-                        }
-
-                         */
                     }
-                    discard.setClicked(false);
+                } else {
+                    // Attendre le click du joueur sur une carte de sa main
+                    Card clickedCard = currentPlayer().clickOnCard();
+                    if (clickedCard != null) {
+                        // Si la carte est visible
+                        if (clickedCard.isVisible()) {
+                            // Ajouter la carte de la pile de draw a la main du joueur
+                            currentPlayer().replaceCard(clickedCard, deck.pick_up_card());
+                            // Ajouter la carte de la main du joueur a la pile de discard
+                            discard.addCard(clickedCard);
+                        } else {
+                            // Reveler la carte du joueur
+                            clickedCard.setVisible(true);
+                        }
+                    }
                 }
+                deck.setClicked(false);
             }
 
             // Next Player
-            if(CurrentPlayerIndex < players.size()+bots.size()-1){
+            if(CurrentPlayerIndex < players.size()-1){
                 CurrentPlayerIndex++;
             } else {
                 CurrentPlayerIndex = 0;

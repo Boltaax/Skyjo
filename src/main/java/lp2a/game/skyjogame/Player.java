@@ -127,13 +127,40 @@ public class Player {
     }
 
     public Card clickOnCard(){
-        for(Card c : hand){
-            if(c.isClicked()){
-                c.setClicked(false);
-                return c;
+        while (true) {
+            for (Card c : hand) {
+                if (c.isClicked()) {
+                    c.setClicked(false);
+                    return c;
+                }
             }
         }
-        return null;
+    }
+
+    public boolean hasClickedOnCard(){
+        for (Card c : hand) {
+            if (c.isClicked()) {
+                c.setClicked(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void replaceCard(Card card, Card newCard){
+        // We replace the card in the hand
+        hand.remove(card);
+        hand.add(newCard);
+        // We replace the card in the grid
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if(grid[i][j] == card){
+                    grid[i][j] = newCard;
+                    newCard.setX(i*(newCard.getWidth()+5)+ x);
+                    newCard.setY(j*(newCard.getHeight()+5)+ y);
+                }
+            }
+        }
     }
 
     @Override
