@@ -25,7 +25,6 @@ public class Multiplayer {
     public void pregame(){
         // Create the deck
         CardDeck deck = new CardDeck(false);
-        deck.shuffle();
         // Deal the cards
         deck.deal(players);
         // Create the discard pile

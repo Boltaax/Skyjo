@@ -216,8 +216,13 @@ public class Skyjo extends Application {
         for (Player p : players){
             p.drawHand(gc);
         }
-        drawDeck(gc);
-        drawDiscard(gc);
+        if (deck.size() >= 1){
+            drawDeck(gc);
+        }
+        if (discard.size() >= 1){
+            drawDiscard(gc);
+        }
+
 
     }
 

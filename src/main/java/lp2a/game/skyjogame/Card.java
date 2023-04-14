@@ -79,13 +79,6 @@ public class Card {
         if (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + this.height) {
             this.clicked = true;
         }
-
-        if (!this.visible && this.clicked) {
-            System.out.println("Retournes ta mère !");
-            this.clicked = false;
-        } else {
-
-        }
     }
 
     public void draw(GraphicsContext gc){
