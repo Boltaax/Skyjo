@@ -60,7 +60,7 @@ public class Multiplayer {
             // Si la carte est visible, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw
             // Sinon, le joueur choisi de l'echanger ou non? Si oui, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw. Si non, la carte du joueur est revelee
 
-            if (deck.isClicked()) {
+            if (discard.isClicked()) {
                 // Attendre le click du joueur sur une carte de sa main
                 Card clickedCard = currentPlayer().clickOnCard();
                 if (clickedCard != null) {
@@ -70,7 +70,7 @@ public class Multiplayer {
                     discard.addCard(clickedCard);
                 }
                 deck.setClicked(false);
-            } else if (discard.isClicked()) {
+            } else if (deck.isClicked()) {
                 // Attendre le click du joueur sur une carte de sa main
                 Card clickedCard = currentPlayer().clickOnCard();
                 if (clickedCard != null) {
