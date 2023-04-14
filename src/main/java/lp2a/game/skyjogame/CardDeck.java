@@ -1,5 +1,7 @@
 package lp2a.game.skyjogame;
 
+import javafx.scene.input.MouseEvent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +10,7 @@ public class CardDeck {
     private List<Card> cards;
     private int x;
     private int y;
+    private boolean clicked = false;
 
     public CardDeck(boolean is_empty) {
         if(!is_empty){
@@ -39,6 +42,19 @@ public class CardDeck {
         }
     }
 
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
+
+    public void clicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getX() > x && mouseEvent.getX() < x + 60 && mouseEvent.getY() > y && mouseEvent.getY() < y + 80) {
+            clicked = true;
+        }
+    }
 
     // Shuffle the deck
     public void shuffle() {
