@@ -10,8 +10,8 @@ public class Card {
     private boolean visible;
     private int x = 10000;
     private int y = 10000;
-    private int width = 60;
-    private int height = 80;
+    private int width = Skyjo.XMAX/25;
+    private int height = Skyjo.YMAX/10;
     private boolean clicked = false;
 
     public Card(int value, String name) {

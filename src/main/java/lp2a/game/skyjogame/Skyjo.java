@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -114,21 +115,31 @@ public class Skyjo extends Application {
 
         //fill the global rectangle with one rectangle for each player
         for (int i = 0; i < players.size(); i++){
-            gc.setFill(players.get(i).getPlayercolor());
+            gc.setFill(Color.LIGHTBLUE);
             gc.fillRect(0,i*YMAX/8,9*XMAX/50, (i+1)*YMAX/8);
         }
-
         gc.setEffect(null);
+
+        //Add players name and score
+        for (int i = 0; i < players.size(); i++){
+            gc.setFont(Font.loadFont(getClass().getResourceAsStream("Pixelade.ttf"),XMAX/50));
+            gc.setFill(players.get(i).getPlayercolor());
+            gc.fillText(players.get(i).getName(), XMAX/50 ,i*YMAX/8+3*YMAX/100);
+            gc.setFill(Color.BLACK);
+            gc.fillText("Hand Points : "+players.get(i).calculatePoints(),XMAX/50,i*YMAX/8+7*YMAX/100);
+            gc.fillText("Total Points : "+players.get(i).getPoints(),XMAX/50,i*YMAX/8+11*YMAX/100);
+        }
+
     }
 
     public void drawDeck(GraphicsContext gc){
-        deck.getCards().get(0).setX(20*XMAX/50);
-        deck.getCards().get(0).setY(20*YMAX/50);
-        deck.getCards().get(0).draw(gc);
+        deck.getCards().get(deck.size()-1).setX(20*XMAX/50);
+        deck.getCards().get(deck.size()-1).setY(20*YMAX/50);
+        deck.getCards().get(deck.size()-1).draw(gc);
     }
 
     public void drawDiscard(GraphicsContext gc){
-        discard.getCards().get(discard.size()-1).setX(30*XMAX/50);
+        discard.getCards().get(discard.size()-1).setX(36*XMAX/50);
         discard.getCards().get(discard.size()-1).setY(20*YMAX/50);
         discard.getCards().get(discard.size()-1).draw(gc);
     }
@@ -183,11 +194,12 @@ public class Skyjo extends Application {
 
             // Start Game
             for (int i = 0; i<8; i++){
-                String playername = "Player"+i;
+                String playername = "Player "+(i+1);
                 Player p = new Player(playername);
                 players.add(p);
             }
             deck.deal(players);
+            discard.addCard(deck.pick_up_card());
 
             // For each player in the game me assigned them a position in function of their position in the list
             for(int i = 0; i < players.size(); i++){

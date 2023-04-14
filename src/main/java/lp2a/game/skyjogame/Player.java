@@ -13,7 +13,7 @@ public class Player {
     private List<Card> hand;
     private int points;
     private Card[][] grid = new Card[4][3];
-    private Color playercolor = Color.LIGHTBLUE;
+    private Color playercolor = Color.RED;
 
     public Player() {
         this.points = 0;
