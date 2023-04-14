@@ -6,6 +6,8 @@ import java.util.List;
 
 public class CardDeck {
     private List<Card> cards;
+    private int x;
+    private int y;
 
     public CardDeck(boolean is_empty) {
         if(!is_empty){
@@ -51,6 +53,18 @@ public class CardDeck {
 
     public void addCard(Card card) {
         cards.add(card);
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
     }
 
     //1st deal

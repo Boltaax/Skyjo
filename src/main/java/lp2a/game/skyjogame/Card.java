@@ -8,8 +8,8 @@ public class Card {
     private int value;
     private String name;
     private boolean visible;
-    private int x = 0;
-    private int y = 0;
+    private int x = 10000;
+    private int y = 10000;
     private int width = 60;
     private int height = 80;
     private boolean clicked = false;

@@ -27,7 +27,7 @@ public class Skyjo extends Application {
     static int YMAX = 800;
     private List<Player> players = new ArrayList<>();
     private CardDeck deck = new CardDeck(false);
-    private CardDeck draw = new CardDeck(true);
+    private CardDeck discard = new CardDeck(true);
     private Menu menu = new Menu();
 
     private boolean isGameFinished() {
@@ -121,6 +121,18 @@ public class Skyjo extends Application {
         gc.setEffect(null);
     }
 
+    public void drawDeck(GraphicsContext gc){
+        deck.getCards().get(0).setX(20*XMAX/50);
+        deck.getCards().get(0).setY(20*YMAX/50);
+        deck.getCards().get(0).draw(gc);
+    }
+
+    public void drawDiscard(GraphicsContext gc){
+        discard.getCards().get(discard.size()-1).setX(30*XMAX/50);
+        discard.getCards().get(discard.size()-1).setY(20*YMAX/50);
+        discard.getCards().get(discard.size()-1).draw(gc);
+    }
+
 
     @Override
     public void start(Stage stage) {
@@ -130,6 +142,9 @@ public class Skyjo extends Application {
             Canvas plate = new Canvas(XMAX, YMAX);
             GraphicsContext gc = plate.getGraphicsContext2D();
             root.getChildren().add(plate);
+            deck.setX(XMAX);
+            discard.setX(XMAX);
+
 
             new AnimationTimer() {
                 long lastTick = 0;
@@ -201,6 +216,8 @@ public class Skyjo extends Application {
         for (Player p : players){
             p.drawHand(gc);
         }
+        drawDeck(gc);
+        drawDiscard(gc);
 
     }
 
