@@ -1,6 +1,7 @@
 package lp2a.game.skyjogame;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Player {
     private List<Card> hand;
     private int points;
     private Card[][] grid = new Card[4][3];
+    private Color playercolor = Color.LIGHTBLUE;
 
     public Player() {
         this.points = 0;
@@ -34,6 +36,9 @@ public class Player {
         return true;
     }
 
+    public List<Card> getHand() {
+        return hand;
+    }
     public void addCard(Card card) {
         this.hand.add(card);
     }
@@ -55,27 +60,31 @@ public class Player {
     public void setY(int y) {
         this.y = y;
     }
-
     public int getY() {
         return y;
     }
-
     public int getX() {
         return x;
+    }
+    public Color getPlayercolor() {
+        return playercolor;
+    }
+    public void setPlayercolor(Color playercolor) {
+        this.playercolor = playercolor;
     }
 
     public void fillGrid(){
         int i = 0;
         int j = 0;
-        for (Card card : hand){
-            if(j==3) {
+        for (Card card : hand){ // For each card in the hand of a player
+            if(j==3) { //We verify if the position of the card is at the end of the column
                 j = 0;
-                i++;
+                i++; //If yes we go the next column
             }
-            grid[i][j] = card;
-            card.setX(i*(card.getWidth()+5)+ x);
+            grid[i][j] = card; // We define the position of the card in the grid of each player (he's hand)
+            card.setX(i*(card.getWidth()+5)+ x); // We define the position of the card for the display
             card.setY(j*(card.getHeight()+5)+ y);
-            j++;
+            j++; // Adding 1 to the position in the line
         }
     }
 

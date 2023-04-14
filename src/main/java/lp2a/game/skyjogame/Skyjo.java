@@ -5,8 +5,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -38,31 +41,84 @@ public class Skyjo extends Application {
 
     public void displayPlayer(int id){
         switch (id){
-            case 0:
-                players.get(id).setX(600);
-                players.get(id).setY(450);
+            case 6:
+                players.get(id).setX(10*XMAX/50);
+                players.get(id).setY(2*YMAX/3+YMAX/50);
+                break;
+            case 4 :
+                players.get(id).setX(10*XMAX/50);
+                players.get(id).setY(YMAX/3+YMAX/50);
+                break;
+            case 2 :
+                players.get(id).setX(10*XMAX/50);
+                players.get(id).setY(YMAX/50);
+                break;
+            case 0 :
+                players.get(id).setX(20*XMAX/50);
+                players.get(id).setY(YMAX/50);
                 break;
             case 1 :
-                players.get(id).setX(600);
-                players.get(id).setY(0);
+                players.get(id).setX(30*XMAX/50);
+                players.get(id).setY(YMAX/50);
+                break;
+            case 3 :
+                players.get(id).setX(40*XMAX/50);
+                players.get(id).setY(YMAX/50);
+                break;
+            case 5 :
+                players.get(id).setX(40*XMAX/50);
+                players.get(id).setY(YMAX/3+YMAX/50);
+                break;
+            case 7 :
+                players.get(id).setX(40*XMAX/50);
+                players.get(id).setY(2*YMAX/3+YMAX/50);
                 break;
         }
     }
 
     public void drawPlate(GraphicsContext gc){
         // calculate the center of the rectangle
-        double centerX = XMAX / 2;
+        double centerX = (65*XMAX/50) / 2;
         double centerY = YMAX / 2;
         // calculate the radius of the circle
         double radius = Math.sqrt(centerX * centerX + centerY * centerY);
         // gradient
         RadialGradient gradient = new RadialGradient(0, 0, centerX, centerY, radius-30, false, CycleMethod.NO_CYCLE,
                 new Stop(0, Color.rgb(130, 200, 210)),
-                new Stop(1, Color.rgb(39, 120, 120)));
+                new Stop(1, Color.rgb(39, 120, 180)));
 
         // fill background
         gc.setFill(gradient);
-        gc.fillRect(0,0, XMAX , YMAX);
+        gc.fillRect(9*XMAX/50,0, XMAX , YMAX);
+    }
+
+    public void drawInfoPlayers(GraphicsContext gc){
+        //Instantiating the Light.Distant class
+        Light.Distant light = new Light.Distant();
+
+        //Setting the properties of the light source
+        light.setAzimuth(45.0);  //Angle of the light in the XY plane in degrees
+        light.setElevation(45.0); //Angle of the light in the YZ plane in degrees
+
+        //Instantiating the Lighting class
+        Lighting lighting = new Lighting();
+
+        //Setting the source of the light
+        lighting.setLight(light);
+        lighting.setSurfaceScale(5.0);
+
+        gc.setEffect(lighting);
+        gc.setFill(Color.rgb(40,120,200));
+
+        gc.fillRect(0,0,19*XMAX/100, YMAX);
+
+        //fill the global rectangle with one rectangle for each player
+        for (int i = 0; i < players.size(); i++){
+            gc.setFill(players.get(i).getPlayercolor());
+            gc.fillRect(0,i*YMAX/8,9*XMAX/50, (i+1)*YMAX/8);
+        }
+
+        gc.setEffect(null);
     }
 
 
@@ -101,18 +157,28 @@ public class Skyjo extends Application {
                     menu.show();
                 }
             });
+            scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                for(Player p : players){
+                    for (Card c : p.getHand()){
+                        c.clicked(mouseEvent);
+                    }
+                }
+            });
 
 
             // Start Game
-            Player p = new Player("Bob");
-            players.add(p);
+            for (int i = 0; i<8; i++){
+                String playername = "Player"+i;
+                Player p = new Player(playername);
+                players.add(p);
+            }
             deck.deal(players);
 
-
+            // For each player in the game me assigned them a position in function of their position in the list
             for(int i = 0; i < players.size(); i++){
                 displayPlayer(i);
+                //And this is for assigned the position for their cards, so that the cards positions are relatives based on each player position
                 players.get(i).fillGrid();
-                System.out.println("x: "+players.get(i).getX()+" y: "+players.get(i).getY());
             }
 
 
@@ -131,9 +197,11 @@ public class Skyjo extends Application {
     public void tick(GraphicsContext gc){
 
         drawPlate(gc);
+        drawInfoPlayers(gc);
         for (Player p : players){
             p.drawHand(gc);
         }
+
     }
 
     public static void main(String[] args) {

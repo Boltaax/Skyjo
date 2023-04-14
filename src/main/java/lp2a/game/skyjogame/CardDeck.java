@@ -30,6 +30,7 @@ public class CardDeck {
                 cards.add(new Card(-2, "-2"));
             }
             shuffle();
+
         }
         else {
             cards = new ArrayList<>();
