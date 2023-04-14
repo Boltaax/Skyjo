@@ -22,17 +22,16 @@ public class Multiplayer {
         return players.get(CurrentPlayerIndex);
     }
 
-    public void pregame(){
+    private void game(){
+        // Initialisation
         // Create the deck
         CardDeck deck = new CardDeck(false);
         // Deal the cards
         deck.deal(players);
-        // Create the discard pile
-        CardDeck discard = deck;
         // Create the draw pile
-        CardDeck draw = new CardDeck(true);
+        CardDeck discard = new CardDeck(true);
         // Add the first card of the discard pile to the draw pile
-        draw.addCard(discard.pick_up_card());
+        discard.addCard(deck.pick_up_card());
 
         // round 0 : all players choose 2 cards from their hand, the one with the most points starts
         int maxPoints = 0;
@@ -53,10 +52,7 @@ public class Multiplayer {
                 // SINON : CURRENTPLAYERINDEX = INDEX DU JOUEUR AVEC LE PLUS DE PTS
             else CurrentPlayerIndex = players.indexOf(player);
         }
-        game();
-    }
 
-    private void game(){
         // round 1
         while(currentPlayer().getHandSize() != 0 || !currentPlayer().getAllVisibleCards()){
             // Soit click sur la pile de draw et click sur une carte de sa main, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw
@@ -64,33 +60,42 @@ public class Multiplayer {
             // Si la carte est visible, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw
             // Sinon, le joueur choisi de l'echanger ou non? Si oui, la carte de la pile est ajoute a la main du joueur et la carte de la main est ajoute a la pile de draw. Si non, la carte du joueur est revelee
 
-            /*
-            if (pileDrawClicked) {
+            if (deck.isClicked()) {
                 // Attendre le click du joueur sur une carte de sa main
-                if (cardClicked) {
+                Card clickedCard = currentPlayer().clickOnCard();
+                if (clickedCard != null) {
                     // Ajouter la carte de la pile de draw a la main du joueur
-                    // Ajouter la carte de la main du joueur a la pile de draw
-                    // code:
+                    currentPlayer().addCard(deck.pick_up_card()); //add a replace method instead
+                    // Ajouter la carte de la main du joueur a la pile de discard
+                    discard.addCard(clickedCard);
                 }
-            } else if (pileDiscardClicked) {
+                deck.setClicked(false);
+            } else if (discard.isClicked()) {
                 // Attendre le click du joueur sur une carte de sa main
-                if (cardClicked) {
+                Card clickedCard = currentPlayer().clickOnCard();
+                if (clickedCard != null) {
                     // Si la carte est visible
-                    if (cardVisible) {
-                        // Ajouter la carte de la pile de discard a la main du joueur
+                    if (clickedCard.isVisible()) {
+                        // Ajouter la carte de la pile de draw a la main du joueur
+                        currentPlayer().addCard(deck.pick_up_card()); //add a replace method instead
                         // Ajouter la carte de la main du joueur a la pile de discard
+                        discard.addCard(clickedCard);
                     } else {
+                        /*
                         // Attendre le click du joueur sur "echanger" ou "ne pas echanger"
-                        if (echangerClicked) {
+                        if (askForExchange()) {
                             // Ajouter la carte de la pile de discard a la main du joueur
                             // Ajouter la carte de la main du joueur a la pile de discard
-                        } else if (nePasEchangerClicked) {
+                        } else  {
                             // Revele la carte du joueur
                         }
+
+                         */
                     }
+                    discard.setClicked(false);
                 }
             }
-            */
+
             // Next Player
             if(CurrentPlayerIndex < players.size()+bots.size()-1){
                 CurrentPlayerIndex++;

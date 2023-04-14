@@ -126,6 +126,16 @@ public class Player {
         return chosenCards;
     }
 
+    public Card clickOnCard(){
+        for(Card c : hand){
+            if(c.isClicked()){
+                c.setClicked(false);
+                return c;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return name;
