@@ -22,7 +22,7 @@ public class Multiplayer {
         return players.get(CurrentPlayerIndex);
     }
 
-    private void game(){
+    public void game(){
         // Initialisation
         // Create the deck
         CardDeck deck = new CardDeck(false);
@@ -31,8 +31,10 @@ public class Multiplayer {
         // Create the draw pile
         CardDeck discard = new CardDeck(true);
         // Add the first card of the discard pile to the draw pile
-        discard.addCard(deck.pick_up_card());
-
+        Card firstCard = deck.pick_up_card();
+        discard.addCard(firstCard);
+        firstCard.setVisible(true);
+        /*
         // round 0 : all players choose 2 cards from their hand, the one with the most points starts
         int maxPoints = 0;
         for (Player player : players) {
@@ -110,6 +112,7 @@ public class Multiplayer {
                 CurrentPlayerIndex = 0;
             }
         }
+         */
     }
 
 }

@@ -120,6 +120,7 @@ public class Player {
                 if(c.isClicked()){
                     chosenCards.add(c);
                     c.setClicked(false);
+                    c.setVisible(true);
                 }
             }
         }

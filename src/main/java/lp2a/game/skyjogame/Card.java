@@ -91,52 +91,8 @@ public class Card {
             gc.fillRoundRect(x, y, width , height, width/4, width/4 );
         }
         gc.setFill(Color.BLACK);
-        switch (this.value){
-            case -2:
-                gc.fillText("-2", x+width/2, y+height/2);
-                break;
-            case -1:
-                gc.fillText("-1", x+width/2, y+height/2);
-                break;
-            case 0:
-                gc.fillText("0", x+width/2, y+height/2);
-                break;
-            case 1:
-                gc.fillText("1", x+width/2, y+height/2);
-                break;
-            case 2:
-                gc.fillText("2", x+width/2, y+height/2);
-                break;
-            case 3:
-                gc.fillText("3", x+width/2, y+height/2);
-                break;
-            case 4:
-                gc.fillText("4", x+width/2, y+height/2);
-                break;
-            case 5:
-                gc.fillText("5", x+width/2, y+height/2);
-                break;
-            case 6:
-                gc.fillText("6", x+width/2, y+height/2);
-                break;
-            case 7:
-                gc.fillText("7", x+width/2, y+height/2);
-                break;
-            case 8:
-                gc.fillText("8", x+width/2, y+height/2);
-                break;
-            case 9:
-                gc.fillText("9", x+width/2, y+height/2);
-                break;
-            case 10:
-                gc.fillText("10", x+width/2, y+height/2);
-                break;
-            case 11:
-                gc.fillText("11", x+width/2, y+height/2);
-                break;
-            case 12:
-                gc.fillText("12", x+width/2, y+height/2);
-                break;
+        if (this.isVisible()) {
+            gc.fillText(String.valueOf(this.value), x+width/2, y+height/2);
         }
     }
 

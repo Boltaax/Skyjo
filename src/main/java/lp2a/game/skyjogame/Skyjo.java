@@ -26,9 +26,10 @@ public class Skyjo extends Application {
     static boolean gameOver = false;
     static int XMAX = 1500;
     static int YMAX = 800;
-    private List<Player> players = new ArrayList<>();
+    private static List<Player> players = new ArrayList<>();
     private CardDeck deck = new CardDeck(false);
     private CardDeck discard = new CardDeck(true);
+    private static int CurrentPlayerIndex = 0;
     private Menu menu = new Menu();
 
     private boolean isGameFinished() {
@@ -200,6 +201,8 @@ public class Skyjo extends Application {
             }
             deck.deal(players);
             discard.addCard(deck.pick_up_card());
+            //make the discard card visible
+            discard.getCards().get(discard.size()-1).setVisible(true);
 
             // For each player in the game me assigned them a position in function of their position in the list
             for(int i = 0; i < players.size(); i++){
