@@ -12,7 +12,9 @@ public class CardDeck {
     private int y;
     private boolean clicked = false;
 
-    public CardDeck(boolean is_empty) {
+    public CardDeck(boolean is_empty, int x, int y) {
+        this.x = x;
+        this.y = y;
         if(!is_empty){
             cards = new ArrayList<>();
             // Add 1 to 12 numbers cards
@@ -51,8 +53,12 @@ public class CardDeck {
     }
 
     public void clicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getX() > x && mouseEvent.getX() < x + 60 && mouseEvent.getY() > y && mouseEvent.getY() < y + 80) {
-            clicked = true;
+        double x = mouseEvent.getX();
+        double y = mouseEvent.getY();
+        int width = Skyjo.XMAX/25;
+        int height = Skyjo.YMAX/10;
+        if (x > this.x && x < this.x + width && y > this.y && y < this.y + height) {
+            this.clicked = true;
         }
     }
 

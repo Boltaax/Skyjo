@@ -29,9 +29,10 @@ public class Skyjo extends Application {
     static int XMAX = (int) screen.getBounds().getWidth();
     static int YMAX = (int) screen.getBounds().getHeight();
     private static List<Player> players = new ArrayList<>();
-    private CardDeck deck = new CardDeck(false);
-    private CardDeck discard = new CardDeck(true);
-    private static int CurrentPlayerIndex = 0;
+    private CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
+    private CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
+    private static int currentPlayerIndex = 0;
+    private int turn = 1;
     private Menu menu = new Menu();
     private MainMenu mainMenu = new MainMenu();
 
@@ -187,17 +188,19 @@ public class Skyjo extends Application {
                 }
             });
             scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                for(Player p : players){
-                    for (Card c : p.getHand()){
-                        c.clicked(mouseEvent);
-                    }
+                for (Card c : players.get(currentPlayerIndex).getHand()) {
+                    c.clicked(mouseEvent);
                 }
+
                 for(MenuButton menuButton : mainMenu.getAllButtons()){
                     menuButton.clicked(mouseEvent);
                     if(mainMenu.getButtonExitRed().isClicked()){
                         stage.close();
                     }
                 }
+                deck.getCards().get(deck.size()-1).clicked(mouseEvent);
+                discard.getCards().get(discard.size()-1).clicked(mouseEvent);
+
             });
 
 
@@ -252,7 +255,79 @@ public class Skyjo extends Application {
             }
         }
 
+        // The code below will be implemented with functions inside the Multiplayer class
 
+        // Round 0
+        if (turn == 0) {
+            //make the current player choose 2 cards
+            List<Card> chosenCards = new ArrayList<>();
+            for (Card c : players.get(currentPlayerIndex).getHand()){
+                if (c.isClicked() && chosenCards.size() < 2){
+                    chosenCards.add(c);
+                    c.setVisible(true);
+                }
+            }
+            // go to the next player if the current player has chosen 2 cards
+            if (chosenCards.size() == 2 && currentPlayerIndex < players.size()-1) {
+                currentPlayerIndex++;
+            } else if (chosenCards.size() == 2 && currentPlayerIndex == players.size()-1){
+                // count the points of each player, the player with the highest score will start the next round, if there is a tie, the first player will start the next round
+                int max = 0;
+                Player firstPlayer = null;
+                for (Player p : players){
+                    if (p.calculatePoints() >= max){
+                        if (p.calculatePoints() == max){
+                            // the player with the lowest index will start the next round
+                            if (players.indexOf(p) < players.indexOf(firstPlayer)){
+                                firstPlayer = p;
+                            }
+                        } else {
+                            max = p.calculatePoints();
+                            firstPlayer = p;
+                        }
+                    }
+                }
+                currentPlayerIndex = players.indexOf(firstPlayer);
+                turn++;
+                // reset the clicked state of the cards
+                for (Player p : players){
+                    for (Card c : p.getHand()){
+                        c.setClicked(false);
+                    }
+                }
+                // debug message show the index of the player who will start the next round
+                System.out.println("Player "+(currentPlayerIndex+1)+" will start the next round");
+            }
+        } else {
+            // Round 1
+            // exchange a card from the player's hand with the card on the discard pile
+            if (discard.getCards().get(discard.size()-1).isClicked()) {
+                // make the player choose one card from his hand
+                for (Card c : players.get(currentPlayerIndex).getHand()) {
+                    if (c.isClicked()) {
+                        // exchange the chosen card with the card on the discard pile
+                        players.get(currentPlayerIndex).replaceCard(c, discard.pick_up_card());
+                        discard.addCard(c);
+                        // make the discard card visible
+                        discard.getCards().get(discard.size()-1).setVisible(true);
+                        // reset the clicked state of the cards
+                        for (Card card : players.get(currentPlayerIndex).getHand()) {
+                            card.setClicked(false);
+                        }
+                        discard.setClicked(false);
+                    }
+                }
+            }
+            // exchange a card from the player's hand with the card on the top of the deck or reveal a card of the player hand
+            if (deck.getCards().get(deck.size()-1).isClicked()){
+                // put the card on the top of the deck on the discard pile
+                discard.addCard(deck.pick_up_card());
+                // make the discard card visible
+                discard.getCards().get(discard.size()-1).setVisible(true);
+                // reset the clicked state
+                deck.setClicked(false);
+            }
+        }
     }
 
     public static void main(String[] args) {

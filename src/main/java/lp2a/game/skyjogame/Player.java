@@ -115,13 +115,11 @@ public class Player {
     public List<Card> chooseCards(int nbr){
         List<Card> chosenCards = new ArrayList<>();
         // We wait for the player to click on the cards he wants to choose
-        while(chosenCards.size() < nbr){
-            for(Card c : hand){
-                if(c.isClicked()){
-                    chosenCards.add(c);
-                    c.setClicked(false);
-                    c.setVisible(true);
-                }
+        for (Card c : hand){
+            if (c.isClicked() && chosenCards.size() < 2){
+                chosenCards.add(c);
+                c.setVisible(true);
+                c.setClicked(false);
             }
         }
         return chosenCards;
