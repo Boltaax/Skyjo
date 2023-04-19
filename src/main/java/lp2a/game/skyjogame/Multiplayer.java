@@ -4,6 +4,9 @@ package lp2a.game.skyjogame;
 import java.util.ArrayList;
 import java.util.List;
 
+import static lp2a.game.skyjogame.Skyjo.XMAX;
+import static lp2a.game.skyjogame.Skyjo.YMAX;
+
 public class Multiplayer {
     private List<Player> players;
     private List<Bot> bots;
@@ -25,11 +28,11 @@ public class Multiplayer {
     public void game(){
         // Initialisation
         // Create the deck
-        CardDeck deck = new CardDeck(false);
+        CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
         // Deal the cards
         deck.deal(players);
         // Create the draw pile
-        CardDeck discard = new CardDeck(true);
+        CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
         // Add the first card of the discard pile to the draw pile
         Card firstCard = deck.pick_up_card();
         discard.addCard(firstCard);

@@ -27,10 +27,10 @@ public class Skyjo extends Application {
     static int XMAX = 1500;
     static int YMAX = 800;
     private static List<Player> players = new ArrayList<>();
-    private CardDeck deck = new CardDeck(false);
-    private CardDeck discard = new CardDeck(true);
+    private CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
+    private CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
     private static int currentPlayerIndex = 0;
-    private int turn = 0;
+    private int turn = 1;
     private Menu menu = new Menu();
 
     private boolean isGameFinished() {
@@ -189,6 +189,8 @@ public class Skyjo extends Application {
                 for (Card c : players.get(currentPlayerIndex).getHand()) {
                     c.clicked(mouseEvent);
                 }
+                deck.getCards().get(deck.size()-1).clicked(mouseEvent);
+                discard.getCards().get(discard.size()-1).clicked(mouseEvent);
             });
 
 
@@ -282,6 +284,33 @@ public class Skyjo extends Application {
             }
         } else {
             // Round 1
+            // exchange a card from the player's hand with the card on the discard pile
+            if (discard.getCards().get(discard.size()-1).isClicked()) {
+                // make the player choose one card from his hand
+                for (Card c : players.get(currentPlayerIndex).getHand()) {
+                    if (c.isClicked()) {
+                        // exchange the chosen card with the card on the discard pile
+                        players.get(currentPlayerIndex).replaceCard(c, discard.pick_up_card());
+                        discard.addCard(c);
+                        // make the discard card visible
+                        discard.getCards().get(discard.size()-1).setVisible(true);
+                        // reset the clicked state of the cards
+                        for (Card card : players.get(currentPlayerIndex).getHand()) {
+                            card.setClicked(false);
+                        }
+                        discard.setClicked(false);
+                    }
+                }
+            }
+            // exchange a card from the player's hand with the card on the top of the deck or reveal a card of the player hand
+            if (deck.getCards().get(deck.size()-1).isClicked()){
+                // put the card on the top of the deck on the discard pile
+                discard.addCard(deck.pick_up_card());
+                // make the discard card visible
+                discard.getCards().get(discard.size()-1).setVisible(true);
+                // reset the clicked state
+                deck.setClicked(false);
+            }
         }
     }
 
