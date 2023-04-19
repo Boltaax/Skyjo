@@ -250,8 +250,9 @@ public class Skyjo extends Application {
             }
         } else {
             mainMenu.draw(gc);
-            if(mainMenu.getButtonExitRed().isClicked()){
-
+            if(mainMenu.getButtonOkGreen().isClicked()){
+                gameOver = false;
+                mainMenu.getButtonOkGreen().setClicked(false);
             }
         }
 

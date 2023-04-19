@@ -1,5 +1,6 @@
 package lp2a.game.skyjogame;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
@@ -52,5 +53,13 @@ public class MenuButton {
     }
     public boolean isClicked() {
         return clicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
+
+    public void draw(GraphicsContext gc){
+        gc.drawImage(img, x, y, width, height);
     }
 }
