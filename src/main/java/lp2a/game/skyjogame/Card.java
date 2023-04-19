@@ -87,7 +87,7 @@ public class Card {
             gc.fillRoundRect(x, y, width , height, width/4, width/4 );
         }
         else {
-            gc.setFill(Color.BLUE);
+            gc.setFill(Color.CYAN);
             gc.fillRoundRect(x, y, width , height, width/4, width/4 );
         }
         gc.setFill(Color.BLACK);

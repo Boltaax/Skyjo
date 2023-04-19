@@ -16,6 +16,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -23,14 +24,16 @@ import java.util.List;
 
 
 public class Skyjo extends Application {
-    static boolean gameOver = false;
-    static int XMAX = 1500;
-    static int YMAX = 800;
+    static boolean gameOver = true;
+    static Screen screen = Screen.getPrimary();
+    static int XMAX = (int) screen.getBounds().getWidth();
+    static int YMAX = (int) screen.getBounds().getHeight();
     private static List<Player> players = new ArrayList<>();
     private CardDeck deck = new CardDeck(false);
     private CardDeck discard = new CardDeck(true);
     private static int CurrentPlayerIndex = 0;
     private Menu menu = new Menu();
+    private MainMenu mainMenu = new MainMenu();
 
     private boolean isGameFinished() {
         for (Player player : players) {
@@ -43,11 +46,11 @@ public class Skyjo extends Application {
 
     public void displayPlayer(int id){
         switch (id){
-            case 6:
+            case 0:
                 players.get(id).setX(10*XMAX/50);
                 players.get(id).setY(2*YMAX/3+YMAX/50);
                 break;
-            case 4 :
+            case 1 :
                 players.get(id).setX(10*XMAX/50);
                 players.get(id).setY(YMAX/3+YMAX/50);
                 break;
@@ -55,19 +58,19 @@ public class Skyjo extends Application {
                 players.get(id).setX(10*XMAX/50);
                 players.get(id).setY(YMAX/50);
                 break;
-            case 0 :
+            case 3 :
                 players.get(id).setX(20*XMAX/50);
                 players.get(id).setY(YMAX/50);
                 break;
-            case 1 :
+            case 4 :
                 players.get(id).setX(30*XMAX/50);
                 players.get(id).setY(YMAX/50);
                 break;
-            case 3 :
+            case 5 :
                 players.get(id).setX(40*XMAX/50);
                 players.get(id).setY(YMAX/50);
                 break;
-            case 5 :
+            case 6 :
                 players.get(id).setX(40*XMAX/50);
                 players.get(id).setY(YMAX/3+YMAX/50);
                 break;
@@ -149,7 +152,6 @@ public class Skyjo extends Application {
     @Override
     public void start(Stage stage) {
         try {
-
             VBox root = new VBox();
             Canvas plate = new Canvas(XMAX, YMAX);
             GraphicsContext gc = plate.getGraphicsContext2D();
@@ -190,6 +192,12 @@ public class Skyjo extends Application {
                         c.clicked(mouseEvent);
                     }
                 }
+                for(MenuButton menuButton : mainMenu.getAllButtons()){
+                    menuButton.clicked(mouseEvent);
+                    if(mainMenu.getButtonExitRed().isClicked()){
+                        stage.close();
+                    }
+                }
             });
 
 
@@ -204,7 +212,7 @@ public class Skyjo extends Application {
             //make the discard card visible
             discard.getCards().get(discard.size()-1).setVisible(true);
 
-            // For each player in the game me assigned them a position in function of their position in the list
+            // For each player in the game we assigned them a position in function of their position in the list
             for(int i = 0; i < players.size(); i++){
                 displayPlayer(i);
                 //And this is for assigned the position for their cards, so that the cards positions are relatives based on each player position
@@ -215,7 +223,6 @@ public class Skyjo extends Application {
             // Primary Scene
             stage.setScene(scene);
             stage.setTitle("Skyjo");
-            //menu.show();
             stage.show();
         } catch (Exception e) {
             System.out.println(e);
@@ -226,16 +233,23 @@ public class Skyjo extends Application {
     // tick
     public void tick(GraphicsContext gc){
 
-        drawPlate(gc);
-        drawInfoPlayers(gc);
-        for (Player p : players){
-            p.drawHand(gc);
-        }
-        if (deck.size() >= 1){
-            drawDeck(gc);
-        }
-        if (discard.size() >= 1){
-            drawDiscard(gc);
+        if (!gameOver) {
+            drawPlate(gc);
+            drawInfoPlayers(gc);
+            for (Player p : players) {
+                p.drawHand(gc);
+            }
+            if (deck.size() >= 1) {
+                drawDeck(gc);
+            }
+            if (discard.size() >= 1) {
+                drawDiscard(gc);
+            }
+        } else {
+            mainMenu.draw(gc);
+            if(mainMenu.getButtonExitRed().isClicked()){
+
+            }
         }
 
 
