@@ -12,9 +12,9 @@ public class Bot {
     private Card[][] grid = new Card[4][3];
     String[] botNames = {"Spock","Aziel","Dimension","Athena","Lorelei","Cerberus","Gold","Damon",
             "Abel Tron","Emilia Tron", "Botzilla", "RoboCop", "Circuit", "Cyber", "Droid", "Botanist",
-            "Botman", "Botman and Robin", "Botman Begins", "Botanical", "Botarazzi", "Botanique",
-            "Botany Bay", "Botanist Prime", "Botanist Explorer", "Botanica", "Botanique Elite",
-            "Botanist Adventures", "Botanic Quest", "Botanist Extraordinaire"};
+            "Botman", "Botty McBotface", "Botman Begins", "Botanical", "Botarazzi", "Bot-tle Rocket",
+            "Botany Bay", "Botanist Prime", "Bot-tom's Up", "Botanica", "Botanique Elite",
+            "Bot-iful Mind", "Bot-sicle", "Bot-hemian Rhapsody"};
 
     public Bot() {
         this.points = 0;
