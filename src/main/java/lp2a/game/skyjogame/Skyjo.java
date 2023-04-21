@@ -29,6 +29,7 @@ public class Skyjo extends Application {
     static int XMAX = (int) screen.getBounds().getWidth();
     static int YMAX = (int) screen.getBounds().getHeight();
     private static List<Player> players = new ArrayList<>();
+    private static List<Bot> bots = new ArrayList<>();
     private CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
     private CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
     private static int currentPlayerIndex = 0;
@@ -251,8 +252,20 @@ public class Skyjo extends Application {
         } else {
             mainMenu.draw(gc);
             if(mainMenu.getButtonOkGreen().isClicked()){
-                gameOver = false;
                 mainMenu.getButtonOkGreen().setClicked(false);
+                gameOver = false;
+            }
+            if(mainMenu.getButtonPlusBot().isClicked()){
+                mainMenu.getButtonPlusBot().setClicked(false);
+                if(players.size() + bots.size() < 8 ){
+                    bots.add(new Bot());
+                }
+            }
+            if(mainMenu.getButtonMinusBot().isClicked()){
+                mainMenu.getButtonMinusBot().setClicked(false);
+                if(bots.size() >= 1 ){
+                    bots.remove(0);
+                }
             }
         }
 

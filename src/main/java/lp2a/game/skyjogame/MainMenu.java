@@ -42,6 +42,14 @@ public class MainMenu {
         return buttonOkGreen;
     }
 
+    public MenuButton getButtonMinusBot() {
+        return buttonMinusBot;
+    }
+
+    public MenuButton getButtonPlusBot() {
+        return buttonPlusBot;
+    }
+
     public List<MenuButton> getAllButtons(){
         List<MenuButton> allButtons = new ArrayList<>();
         allButtons.addAll(Arrays.asList(background, buttonCrossBlue, buttonCrossRed, buttonMenu, buttonExitBlue, buttonExitRed, buttonMinusBot, buttonMinusRed, buttonOkBlue, buttonOkGreen, buttonPlusBot));
