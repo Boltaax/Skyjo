@@ -37,6 +37,16 @@ public class Skyjo extends Application {
     private Menu menu = new Menu();
     private MainMenu mainMenu = new MainMenu();
 
+
+    
+    public CardDeck getDeck() {
+        return this.deck;
+    }
+
+    public CardDeck getDiscard() {
+        return this.discard;
+    }
+
     private boolean isGameFinished() {
         for (Player player : players) {
             if (player.getPoints() <= 100) {
