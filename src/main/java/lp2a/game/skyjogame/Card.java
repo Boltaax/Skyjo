@@ -63,6 +63,14 @@ public class Card {
         return y;
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public boolean isVisible() {
         return visible;
     }
@@ -82,6 +90,10 @@ public class Card {
     }
 
     public void draw(GraphicsContext gc){
+        if(this.clicked){
+            gc.setFill(Color.ORANGE);
+            gc.fillRoundRect(x-3, y-3, width+6 , height+6, width/4, width/4 );
+        }
         if (!this.isVisible()) {
             gc.setFill(Color.RED);
             gc.fillRoundRect(x, y, width , height, width/4, width/4 );
