@@ -144,14 +144,22 @@ public class Skyjo extends Application {
     }
 
     public void drawDeck(GraphicsContext gc){
-        deck.getCards().get(deck.size()-1).setX(20*XMAX/50);
-        deck.getCards().get(deck.size()-1).setY(20*YMAX/50);
+        for(Card c : deck.getCards()){
+            c.setHeight(YMAX/6);
+            c.setWidth(XMAX/16);
+        }
+        deck.getCards().get(deck.size()-1).setX(19*XMAX/50);
+        deck.getCards().get(deck.size()-1).setY(25*YMAX/50);
         deck.getCards().get(deck.size()-1).draw(gc);
     }
 
     public void drawDiscard(GraphicsContext gc){
+        for(Card c : discard.getCards()){
+            c.setHeight(YMAX/6);
+            c.setWidth(XMAX/16);
+        }
         discard.getCards().get(discard.size()-1).setX(36*XMAX/50);
-        discard.getCards().get(discard.size()-1).setY(20*YMAX/50);
+        discard.getCards().get(discard.size()-1).setY(25*YMAX/50);
         discard.getCards().get(discard.size()-1).draw(gc);
     }
 
