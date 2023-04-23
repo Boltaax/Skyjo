@@ -162,6 +162,16 @@ public class Player {
         }
     }
 
+    public void displayCenter(){
+        this.x = (45*Skyjo.XMAX/100);
+        this.y = (40*Skyjo.YMAX/100);
+        for(Card c : this.hand){
+            c.setHeight(Skyjo.YMAX/6);
+            c.setWidth(Skyjo.XMAX/16);
+        }
+        fillGrid();
+    }
+
     @Override
     public String toString() {
         return name;

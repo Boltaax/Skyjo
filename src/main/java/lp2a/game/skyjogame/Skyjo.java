@@ -24,7 +24,7 @@ import java.util.List;
 
 
 public class Skyjo extends Application {
-    static boolean gameOver = true;
+    static boolean gameOver = false;
     static Screen screen = Screen.getPrimary();
     static int XMAX = (int) screen.getBounds().getWidth();
     static int YMAX = (int) screen.getBounds().getHeight();
@@ -46,8 +46,12 @@ public class Skyjo extends Application {
         }
         return true;
     }
-
     public void displayPlayer(int id){
+        for(Card c : players.get(id).getHand()){
+            c.setWidth(XMAX/25);
+            c.setHeight(YMAX/10);
+            c.setHeight(YMAX/10);
+        }
         switch (id){
             case 0:
                 players.get(id).setX(10*XMAX/50);
@@ -82,6 +86,7 @@ public class Skyjo extends Application {
                 players.get(id).setY(2*YMAX/3+YMAX/50);
                 break;
         }
+        players.get(id).fillGrid();
     }
 
     public void drawPlate(GraphicsContext gc){
@@ -272,6 +277,8 @@ public class Skyjo extends Application {
 
         // The code below will be implemented with functions inside the Multiplayer class
 
+        players.get(currentPlayerIndex).displayCenter();
+
         // Round 0
         if (turn == 0) {
             //make the current player choose 2 cards
@@ -284,11 +291,13 @@ public class Skyjo extends Application {
             }
             // go to the next player if the current player has chosen 2 cards
             if (chosenCards.size() == 2 && currentPlayerIndex < players.size()-1) {
+                displayPlayer(currentPlayerIndex);
                 currentPlayerIndex++;
             } else if (chosenCards.size() == 2 && currentPlayerIndex == players.size()-1){
                 // count the points of each player, the player with the highest score will start the next round, if there is a tie, the first player will start the next round
                 int max = 0;
                 Player firstPlayer = null;
+                displayPlayer(currentPlayerIndex);
                 for (Player p : players){
                     if (p.calculatePoints() >= max){
                         if (p.calculatePoints() == max){
@@ -333,9 +342,11 @@ public class Skyjo extends Application {
                         }
                         discard.getCards().get(discard.size() - 1).setClicked(false);
                         // go to the next player
+                        displayPlayer(currentPlayerIndex);
                         if (currentPlayerIndex < players.size() - 1) {
                             currentPlayerIndex++;
                         } else {
+
                             currentPlayerIndex = 0;
                             turn++;
                         }
@@ -370,6 +381,7 @@ public class Skyjo extends Application {
                             }
                             discard.getCards().get(discard.size()-1).setClicked(false);
                             // go to the next player
+                            displayPlayer(currentPlayerIndex);
                             if (currentPlayerIndex < players.size()-1) {
                                 currentPlayerIndex++;
                             } else {
@@ -390,6 +402,7 @@ public class Skyjo extends Application {
                                 card.setClicked(false);
                             }
                             // go to the next player
+                            displayPlayer(currentPlayerIndex);
                             if (currentPlayerIndex < players.size() - 1) {
                                 currentPlayerIndex++;
                             } else {
