@@ -34,6 +34,7 @@ public class Skyjo extends Application {
     private CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
     private static int currentPlayerIndex = 0;
     private int turn = 0;
+    boolean cardRevealed = false; // to optimize
     private Menu menu = new Menu();
     private MainMenu mainMenu = new MainMenu();
 
@@ -309,6 +310,8 @@ public class Skyjo extends Application {
                         c.setClicked(false);
                     }
                 }
+                discard.getCards().get(discard.size()-1).setClicked(false);
+                deck.getCards().get(deck.size()-1).setClicked(false);
                 // debug message show the index of the player who will start the next round
                 System.out.println("Player "+(currentPlayerIndex+1)+" will start the next round");
             }
@@ -328,7 +331,7 @@ public class Skyjo extends Application {
                         for (Card card : players.get(currentPlayerIndex).getHand()) {
                             card.setClicked(false);
                         }
-                        discard.setClicked(false);
+                        discard.getCards().get(discard.size() - 1).setClicked(false);
                         // go to the next player
                         if (currentPlayerIndex < players.size() - 1) {
                             currentPlayerIndex++;
@@ -342,12 +345,17 @@ public class Skyjo extends Application {
             else
             // exchange a card from the player's hand with the card on the top of the deck or reveal a card of the player hand
             if (deck.getCards().get(deck.size()-1).isClicked()){
+                cardRevealed = true;
                 // put the card on the top of the deck on the discard pile
                 discard.addCard(deck.pick_up_card());
                 // make the discard card visible
                 discard.getCards().get(discard.size()-1).setVisible(true);
+                // reset the clicked state of the first discard card
+                discard.getCards().get(discard.size()-1).setClicked(false);
+                /*
                 // if the player click on the discard pile, he will exchange a card from his hand with the card on the discard pile
                 if (discard.getCards().get(discard.size()-1).isClicked()) {
+                    cardRevealed = false;
                     // make the player choose one card from his hand
                     for (Card c : players.get(currentPlayerIndex).getHand()) {
                         if (c.isClicked()) {
@@ -360,7 +368,7 @@ public class Skyjo extends Application {
                             for (Card card : players.get(currentPlayerIndex).getHand()) {
                                 card.setClicked(false);
                             }
-                            discard.setClicked(false);
+                            discard.getCards().get(discard.size()-1).setClicked(false);
                             // go to the next player
                             if (currentPlayerIndex < players.size()-1) {
                                 currentPlayerIndex++;
@@ -370,11 +378,12 @@ public class Skyjo extends Application {
                             }
                         }
                     }
-                }
-                else {
+                }*/
+                if (cardRevealed) {
                     // if the player click on a card of his hand which is not visible, he will reveal it
                     for (Card c : players.get(currentPlayerIndex).getHand()) {
-                        if (c.isClicked() && !c.isVisible()) {
+                        System.out.println(c.isClicked());
+                        if (c.isClicked() && !c.isVisible() && !discard.getCards().get(discard.size() - 1).isClicked()) {
                             c.setVisible(true);
                             // reset the clicked state of the cards
                             for (Card card : players.get(currentPlayerIndex).getHand()) {
@@ -387,10 +396,10 @@ public class Skyjo extends Application {
                                 currentPlayerIndex = 0;
                                 turn++;
                             }
+                            // reset the clicked state
+                            deck.getCards().get(deck.size() - 1).setClicked(false);
                         }
                     }
-                    // reset the clicked state
-                    deck.setClicked(false);
                 }
             }
         }
