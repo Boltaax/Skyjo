@@ -35,6 +35,7 @@ public class Skyjo extends Application {
     private static int currentPlayerIndex = 0;
     private int turn = 0;
     boolean cardRevealed = false; // to optimize
+    CurrentPlayerState currentPlayerState = CurrentPlayerState.WAITING;
     private Menu menu = new Menu();
     private MainMenu mainMenu = new MainMenu();
 
@@ -213,9 +214,10 @@ public class Skyjo extends Application {
                         stage.close();
                     }
                 }
-                deck.getCards().get(deck.size()-1).clicked(mouseEvent);
-                discard.getCards().get(discard.size()-1).clicked(mouseEvent);
-
+                if (turn > 0) {
+                    deck.getCards().get(deck.size()-1).clicked(mouseEvent);
+                    discard.getCards().get(discard.size()-1).clicked(mouseEvent);
+                }
             });
 
 
@@ -333,92 +335,62 @@ public class Skyjo extends Application {
                 System.out.println("Player "+(currentPlayerIndex+1)+" will start the next round");
             }
         } else {
-            // Round 1
-            // exchange a card from the player's hand with the card on the discard pile
-            if (discard.getCards().get(discard.size()-1).isClicked()) {
-                // make the player choose one card from his hand
-                for (Card c : players.get(currentPlayerIndex).getHand()) {
-                    if (c.isClicked()) {
-                        // exchange the chosen card with the card on the discard pile
-                        players.get(currentPlayerIndex).replaceCard(c, discard.pick_up_card());
-                        discard.addCard(c);
-                        // make the discard card visible
-                        discard.getCards().get(discard.size() - 1).setVisible(true);
-                        // reset the clicked state of the cards
-                        for (Card card : players.get(currentPlayerIndex).getHand()) {
-                            card.setClicked(false);
-                        }
-                        discard.getCards().get(discard.size() - 1).setClicked(false);
-                        // go to the next player
-                        displayPlayer(currentPlayerIndex);
-                        if (currentPlayerIndex < players.size() - 1) {
-                            currentPlayerIndex++;
-                        } else {
+            // State machine
+            switch (currentPlayerState) {
+                // if the state is WAITING, the player can click on the deck or the discard pile
+                case WAITING -> {
+                    // if the player click on the discard pile, we change the state to DISCARD_CLICK
+                    if (discard.isClicked()) {
+                        currentPlayerState = CurrentPlayerState.DISCARD_CLICK;
+                    }
+                    // if the player click on the deck pile, we change the state to DECK_CLICK
+                    if (deck.isClicked()) {
+                        currentPlayerState = CurrentPlayerState.DECK_CLICK;
+                        // reset the clicked state of the first card of the deck pile
+                        deck.setClicked(false);
+                        // put the card on the deck pile in the discard pile
+                        discard.addCard(deck.pick_up_card());
+                        // make the card visible
+                        discard.setVisible(true);
+                    }
+                }
+                // if the state is DISCARD_CLICK, the player exchange a card from his hand with the card on the discard pile
+                case DISCARD_CLICK -> {
+                    for (Card c : players.get(currentPlayerIndex).getHand()) {
+                        if (c.isClicked()) {
+                            // we exchange the card
+                            Multiplayer.discardExchange(players.get(currentPlayerIndex), c, discard);
+                            // reset the clicked state of the cards
+                            Multiplayer.resetPlayerCardsClick(players.get(currentPlayerIndex));
+                            discard.setClicked(false);
+                            // we change the state to WAITING
+                            currentPlayerState = CurrentPlayerState.WAITING;
+                            // we go to the next player
+                            currentPlayerIndex = Multiplayer.nextPlayer(players, currentPlayerIndex);
 
-                            currentPlayerIndex = 0;
                             turn++;
                         }
                     }
                 }
-            }
-            else
-            // exchange a card from the player's hand with the card on the top of the deck or reveal a card of the player hand
-            if (deck.getCards().get(deck.size()-1).isClicked()){
-                cardRevealed = true;
-                // put the card on the top of the deck on the discard pile
-                discard.addCard(deck.pick_up_card());
-                // make the discard card visible
-                discard.getCards().get(discard.size()-1).setVisible(true);
-                // reset the clicked state of the first discard card
-                discard.getCards().get(discard.size()-1).setClicked(false);
-                /*
-                // if the player click on the discard pile, he will exchange a card from his hand with the card on the discard pile
-                if (discard.getCards().get(discard.size()-1).isClicked()) {
-                    cardRevealed = false;
-                    // make the player choose one card from his hand
-                    for (Card c : players.get(currentPlayerIndex).getHand()) {
-                        if (c.isClicked()) {
-                            // exchange the chosen card with the card on the discard pile
-                            players.get(currentPlayerIndex).replaceCard(c, discard.pick_up_card());
-                            discard.addCard(c);
-                            // make the discard card visible
-                            discard.getCards().get(discard.size()-1).setVisible(true);
-                            // reset the clicked state of the cards
-                            for (Card card : players.get(currentPlayerIndex).getHand()) {
-                                card.setClicked(false);
-                            }
-                            discard.getCards().get(discard.size()-1).setClicked(false);
-                            // go to the next player
-                            displayPlayer(currentPlayerIndex);
-                            if (currentPlayerIndex < players.size()-1) {
-                                currentPlayerIndex++;
-                            } else {
-                                currentPlayerIndex = 0;
-                                turn++;
-                            }
-                        }
+                // if the state is DECK_CLICK, the player can exchange a card from his hand with the card on the deck pile or reveal one of his cards
+                case DECK_CLICK -> {
+                    // if the player click on the discard pile, he can exchange a card from his hand with the card on the discard pile
+                    if (discard.isClicked()) {
+                        currentPlayerState = CurrentPlayerState.DISCARD_CLICK;
                     }
-                }*/
-                if (cardRevealed) {
-                    // if the player click on a card of his hand which is not visible, he will reveal it
+                    // if the player click one of his card which is not visible, he can reveal it
                     for (Card c : players.get(currentPlayerIndex).getHand()) {
-                        System.out.println(c.isClicked());
-                        if (c.isClicked() && !c.isVisible() && !discard.getCards().get(discard.size() - 1).isClicked()) {
+                        if (c.isClicked() && !c.isVisible()) {
+                            // we reveal the card
                             c.setVisible(true);
                             // reset the clicked state of the cards
-                            for (Card card : players.get(currentPlayerIndex).getHand()) {
-                                card.setClicked(false);
-                            }
-                            // go to the next player
-                            displayPlayer(currentPlayerIndex);
-                            if (currentPlayerIndex < players.size() - 1) {
-                                currentPlayerIndex++;
-                            } else {
-                                currentPlayerIndex = 0;
-                                turn++;
-                            }
-                            // reset the clicked state
-                            deck.getCards().get(deck.size() - 1).setClicked(false);
+                            Multiplayer.resetPlayerCardsClick(players.get(currentPlayerIndex));
+                            // we change the state to WAITING
+                            currentPlayerState = CurrentPlayerState.WAITING;
+                            // we go to the next player
+                            currentPlayerIndex = Multiplayer.nextPlayer(players, currentPlayerIndex);
+
+                            turn++;
                         }
                     }
                 }

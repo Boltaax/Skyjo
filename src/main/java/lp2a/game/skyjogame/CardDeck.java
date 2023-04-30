@@ -10,7 +10,6 @@ public class CardDeck {
     private List<Card> cards;
     private int x;
     private int y;
-    private boolean clicked = false;
 
     public CardDeck(boolean is_empty, int x, int y) {
         this.x = x;
@@ -45,21 +44,15 @@ public class CardDeck {
     }
 
     public boolean isClicked() {
-        return clicked;
+        if (this.getCards().get(this.size()-1).isClicked()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setClicked(boolean clicked) {
-        this.clicked = clicked;
-    }
-
-    public void clicked(MouseEvent mouseEvent) {
-        double x = mouseEvent.getX();
-        double y = mouseEvent.getY();
-        int width = Skyjo.XMAX/25;
-        int height = Skyjo.YMAX/10;
-        if (x > this.x && x < this.x + width && y > this.y && y < this.y + height) {
-            this.clicked = true;
-        }
+        this.getCards().get(this.size()-1).setClicked(clicked);
     }
 
     // Shuffle the deck
@@ -101,5 +94,10 @@ public class CardDeck {
     }
     public int size() {
         return cards.size();
+    }
+
+    public void setVisible(boolean visible) {
+        // make the first card visible
+        cards.get(cards.size()-1).setVisible(visible);
     }
 }

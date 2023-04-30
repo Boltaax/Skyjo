@@ -117,4 +117,27 @@ public class Multiplayer {
         }
          */
     }
+
+    public static void discardExchange(Player player, Card c, CardDeck discard) {
+        player.replaceCard(c, discard.pick_up_card());
+        discard.addCard(c);
+        // make the first card of the discard pile visible
+        discard.setVisible(true);
+    }
+
+    public static void resetPlayerCardsClick(Player player) {
+        for (Card c : player.getHand()) {
+            c.setClicked(false);
+        }
+    }
+
+    public static int nextPlayer(List<Player> players, int CurrentPlayerIndex) {
+        int nextPlayerIndex;
+        if(CurrentPlayerIndex < players.size()-1){
+            nextPlayerIndex = CurrentPlayerIndex + 1;
+        } else {
+            nextPlayerIndex = 0;
+        }
+        return nextPlayerIndex;
+    }
 }
