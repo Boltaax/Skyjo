@@ -147,19 +147,13 @@ public class Player {
     }
 
     public void replaceCard(Card card, Card newCard){
-        // We replace the card in the hand
+        int index = hand.indexOf(card);
+        // Set the position of the new card
+        newCard.setX(card.getX());
+        newCard.setY(card.getY());
+        // Replace the card
         hand.remove(card);
-        hand.add(newCard);
-        // We replace the card in the grid
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                if(grid[i][j] == card){
-                    grid[i][j] = newCard;
-                    newCard.setX(i*(newCard.getWidth()+5)+ x);
-                    newCard.setY(j*(newCard.getHeight()+5)+ y);
-                }
-            }
-        }
+        hand.add(index, newCard);
     }
 
     public void displayCenter(){

@@ -117,6 +117,16 @@ public class Multiplayer {
         }
          */
     }
+    public static List<Player> reorganizePlayers(List<Player> players, int CurrentPlayerIndex){
+        List<Player> newPlayers = new ArrayList<>();
+        for(int i = CurrentPlayerIndex; i < players.size(); i++){
+            newPlayers.add(players.get(i));
+        }
+        for(int i = 0; i < CurrentPlayerIndex; i++){
+            newPlayers.add(players.get(i));
+        }
+        return newPlayers;
+    }
 
     public static void discardExchange(Player player, Card c, CardDeck discard) {
         player.replaceCard(c, discard.pick_up_card());
@@ -132,11 +142,38 @@ public class Multiplayer {
     }
 
     public static int nextPlayer(List<Player> players, int CurrentPlayerIndex) {
+        // if the player is the only one which has all his cards visible, we reorganize the players list so that he becomes the first player
+        if (!players.get(0).getAllVisibleCards() && players.get(CurrentPlayerIndex).getAllVisibleCards()) {
+            players = reorganizePlayers(players, CurrentPlayerIndex);
+            CurrentPlayerIndex = 0;
+            System.out.println("Reorganizing players");
+        }
+
         int nextPlayerIndex;
-        if(CurrentPlayerIndex < players.size()-1){
+        if (CurrentPlayerIndex < players.size()-1){
             nextPlayerIndex = CurrentPlayerIndex + 1;
         } else {
-            nextPlayerIndex = 0;
+            // if the first player has all his cards visible, the round is over
+            if (players.get(0).getAllVisibleCards()) {
+                System.out.println("Round over");
+                // add the hand points of the players to their total points
+                for (Player player : players) {
+                    player.setPoints(player.calculatePoints());
+                }
+                // If a player has 100 or more points, the game is over
+                for (Player player : players) {
+                    if (player.getPoints() >= 100) {
+                        Skyjo.gameOver = true;
+                        break;
+                    }
+                }
+                // todo : double the points of the player which has finished first if he has not the least points
+                // todo : if a player has 3 same cards on a column, remove the column
+                nextPlayerIndex = -1;
+            } else {
+                nextPlayerIndex = 0;
+                Skyjo.turn++;
+            }
         }
         return nextPlayerIndex;
     }
