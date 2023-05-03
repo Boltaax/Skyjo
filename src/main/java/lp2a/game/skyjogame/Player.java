@@ -28,12 +28,21 @@ public class Player {
     }
 
     public boolean getAllVisibleCards(){
+        /*
         for (Card card : hand) {
             if(!card.isVisible()){
                 return false;
             }
         }
         return true;
+         */
+        int count = 0;
+        for (Card card : hand) {
+            if(card.isVisible()){
+                count++;
+            }
+        }
+        return count == 1;
     }
 
     public List<Card> getHand() {
@@ -148,11 +157,7 @@ public class Player {
 
     public void replaceCard(Card card, Card newCard){
         int index = hand.indexOf(card);
-        // Set the position of the new card
-        newCard.setX(card.getX());
-        newCard.setY(card.getY());
-        // Replace the card
-        hand.remove(card);
+        hand.remove(card); // cause of problems
         hand.add(index, newCard);
     }
 

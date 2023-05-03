@@ -4,8 +4,7 @@ package lp2a.game.skyjogame;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lp2a.game.skyjogame.Skyjo.XMAX;
-import static lp2a.game.skyjogame.Skyjo.YMAX;
+import static lp2a.game.skyjogame.Skyjo.*;
 
 public class Multiplayer {
     private List<Player> players;
@@ -141,39 +140,42 @@ public class Multiplayer {
         }
     }
 
-    public static int nextPlayer(List<Player> players, int CurrentPlayerIndex) {
-        // if the player is the only one which has all his cards visible, we reorganize the players list so that he becomes the first player
-        if (!players.get(0).getAllVisibleCards() && players.get(CurrentPlayerIndex).getAllVisibleCards()) {
-            players = reorganizePlayers(players, CurrentPlayerIndex);
-            CurrentPlayerIndex = 0;
-            System.out.println("Reorganizing players");
+    public static int nextPlayer() {
+        Skyjo.displayPlayer(Skyjo.currentPlayerIndex);
+        // if the current player has all his cards visible, we set the last player index to the player before him
+        if (lastPlayerIndex == -1 && Skyjo.players.get(Skyjo.currentPlayerIndex).getAllVisibleCards()) {
+            if (Skyjo.currentPlayerIndex == 0) {
+                lastPlayerIndex = Skyjo.players.size() - 1;
+            } else {
+                lastPlayerIndex = Skyjo.currentPlayerIndex - 1;
+            }
         }
 
         int nextPlayerIndex;
-        if (CurrentPlayerIndex < players.size()-1){
-            nextPlayerIndex = CurrentPlayerIndex + 1;
-        } else {
-            // if the first player has all his cards visible, the round is over
-            if (players.get(0).getAllVisibleCards()) {
-                System.out.println("Round over");
-                // add the hand points of the players to their total points
-                for (Player player : players) {
-                    player.setPoints(player.calculatePoints());
-                }
-                // If a player has 100 or more points, the game is over
-                for (Player player : players) {
-                    if (player.getPoints() >= 100) {
-                        Skyjo.gameOver = true;
-                        break;
-                    }
-                }
+        if (Skyjo.currentPlayerIndex != lastPlayerIndex) {
+            if (Skyjo.currentPlayerIndex < Skyjo.players.size() - 1) {
+                nextPlayerIndex = Skyjo.currentPlayerIndex + 1;
+            } else {
                 // todo : double the points of the player which has finished first if he has not the least points
                 // todo : if a player has 3 same cards on a column, remove the column
-                nextPlayerIndex = -1;
-            } else {
                 nextPlayerIndex = 0;
                 Skyjo.turn++;
             }
+        } else {
+            // it's the end of the round
+            System.out.println("End of the round");
+            // add the hand points of the players to their total points
+            for (Player player : Skyjo.players) {
+                player.setPoints(player.calculatePoints());
+            }
+            // If a player has 100 or more points, the game is over
+            for (Player player : Skyjo.players) {
+                if (player.getPoints() >= 5) {
+                    Skyjo.gameOver = true;
+                    break;
+                }
+            }
+            nextPlayerIndex = -1;
         }
         return nextPlayerIndex;
     }

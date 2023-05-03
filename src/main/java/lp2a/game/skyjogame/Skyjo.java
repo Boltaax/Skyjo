@@ -28,14 +28,15 @@ public class Skyjo extends Application {
     static Screen screen = Screen.getPrimary();
     static int XMAX = (int) screen.getBounds().getWidth();
     static int YMAX = (int) screen.getBounds().getHeight();
-    private static List<Player> players = new ArrayList<>();
+    static List<Player> players = new ArrayList<>();
     private static List<Bot> bots = new ArrayList<>();
     private CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
     private CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
-    private static int currentPlayerIndex = 0;
+    static int currentPlayerIndex = 0;
+    static int lastPlayerIndex = -1;
     static int turn = 0;
     boolean cardRevealed = false; // to optimize
-    CurrentPlayerState currentPlayerState = CurrentPlayerState.ROUND_START;
+    CurrentPlayerState currentPlayerState = CurrentPlayerState.WAITING;
     private Menu menu = new Menu();
     private MainMenu mainMenu = new MainMenu();
 
@@ -47,7 +48,7 @@ public class Skyjo extends Application {
         }
         return true;
     }
-    public void displayPlayer(int id){
+    public static void displayPlayer(int id){
         for(Card c : players.get(id).getHand()){
             c.setWidth(XMAX/25);
             c.setHeight(YMAX/10);
@@ -197,6 +198,7 @@ public class Skyjo extends Application {
             Scene scene = new Scene(root, XMAX, YMAX);
 
             // Controls
+            // TODO: add more conditions
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
                 if (key.getCode() == KeyCode.ESCAPE) {
                     gameOver = true;
@@ -214,7 +216,7 @@ public class Skyjo extends Application {
                         stage.close();
                     }
                 }
-                if (turn > 0) {
+                if (currentPlayerState != CurrentPlayerState.PRE_ROUND && currentPlayerState != CurrentPlayerState.ROUND_START) {
                     deck.getCards().get(deck.size()-1).clicked(mouseEvent);
                     discard.getCards().get(discard.size()-1).clicked(mouseEvent);
                 }
@@ -297,12 +299,25 @@ public class Skyjo extends Application {
         switch (currentPlayerState) {
             // if the state is PRE_ROUND, we initialize the deck and the discard pile, and we deal the cards to the players
             case PRE_ROUND -> {
+                // initialize the deck and the discard pile
                 deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
                 discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
+                // remove all the cards from the players' hands
+                for (Player p : players) {
+                    p.getHand().clear();
+                }
+                // deal the cards to the players
                 deck.deal(players);
+                // Pick up the first card of the deck and put it in the discard
                 discard.addCard(deck.pick_up_card());
                 //make the discard card visible
                 discard.setVisible(true);
+                // For each player in the game we assigned them a position in function of their position in the list
+                for(int i = 0; i < players.size(); i++){
+                    displayPlayer(i);
+                    //And this is for assigned the position for their cards, so that the cards positions are relatives based on each player position
+                    players.get(i).fillGrid();
+                }
                 // change the state to ROUND_START
                 currentPlayerState = CurrentPlayerState.ROUND_START;
             }
@@ -319,6 +334,7 @@ public class Skyjo extends Application {
                 // go to the next player if the current player has chosen 2 cards
                 if (chosenCards.size() == 2 && currentPlayerIndex < players.size()-1) {
                     displayPlayer(currentPlayerIndex);
+                    Multiplayer.resetPlayerCardsClick(players.get(currentPlayerIndex));
                     currentPlayerIndex++;
                 } else if (chosenCards.size() == 2 && currentPlayerIndex == players.size()-1){
                     // count the points of each player, the player with the highest score will start the next round, if there is a tie, the first player will start the next round
@@ -379,19 +395,19 @@ public class Skyjo extends Application {
                         // reset the clicked state of the cards
                         Multiplayer.resetPlayerCardsClick(players.get(currentPlayerIndex));
                         discard.setClicked(false);
+
                         // we change the state to WAITING
                         currentPlayerState = CurrentPlayerState.WAITING;
-                        // we display the player
-                        displayPlayer(currentPlayerIndex);
+
                         // we go to the next player
-                        currentPlayerIndex = Multiplayer.nextPlayer(players, currentPlayerIndex);
+                        currentPlayerIndex = Multiplayer.nextPlayer();
 
                         // if the round is over, we go to the next round
                         if (currentPlayerIndex == -1) {
                             turn = 0;
                             currentPlayerIndex = 0;
-                            // change the state to ROUND_START
-                            currentPlayerState = CurrentPlayerState.ROUND_START;
+                            // change the state to PRE_ROUND
+                            currentPlayerState = CurrentPlayerState.PRE_ROUND;
                         }
                     }
                 }
@@ -411,16 +427,14 @@ public class Skyjo extends Application {
                         Multiplayer.resetPlayerCardsClick(players.get(currentPlayerIndex));
                         // we change the state to WAITING
                         currentPlayerState = CurrentPlayerState.WAITING;
-                        // we display the player
-                        displayPlayer(currentPlayerIndex);
                         // we go to the next player
-                        currentPlayerIndex = Multiplayer.nextPlayer(players, currentPlayerIndex);
+                        currentPlayerIndex = Multiplayer.nextPlayer();
 
                         // if the round is over, we go to the next round
                         if (currentPlayerIndex == -1) {
                             turn = 0;
                             currentPlayerIndex = 0;
-                            currentPlayerState = CurrentPlayerState.ROUND_START;
+                            currentPlayerState = CurrentPlayerState.PRE_ROUND;
                         }
                     }
                 }

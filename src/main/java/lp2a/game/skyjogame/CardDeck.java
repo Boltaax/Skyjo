@@ -44,15 +44,17 @@ public class CardDeck {
     }
 
     public boolean isClicked() {
-        if (this.getCards().get(this.size()-1).isClicked()) {
-            return true;
+        if (this.getCards().size() > 0) {
+            return this.getCards().get(this.size() - 1).isClicked();
         } else {
             return false;
         }
     }
 
     public void setClicked(boolean clicked) {
-        this.getCards().get(this.size()-1).setClicked(clicked);
+        if (this.getCards().size() > 0) {
+            this.getCards().get(this.size() - 1).setClicked(clicked);
+        }
     }
 
     // Shuffle the deck
@@ -61,9 +63,12 @@ public class CardDeck {
     }
 
     public Card pick_up_card(){
-        Card c = cards.get(cards.size()-1);
-        cards.remove(cards.get(cards.size()-1));
-        return c;
+        // return the last card of the deck, and remove it from the deck if it's not empty
+        if (cards.size() > 0) {
+            return cards.remove(cards.size() - 1);
+        } else {
+            return null;
+        }
     }
 
     public void addCard(Card card) {
