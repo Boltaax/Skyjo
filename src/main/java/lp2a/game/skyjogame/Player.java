@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Playable {
     private int x;
     private int y;
     private String name;

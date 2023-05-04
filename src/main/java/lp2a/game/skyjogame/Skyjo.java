@@ -24,7 +24,7 @@ import java.util.List;
 
 
 public class Skyjo extends Application {
-    static boolean gameOver = false;
+    static boolean gameOver = true;
     static Screen screen = Screen.getPrimary();
     static int XMAX = (int) screen.getBounds().getWidth();
     static int YMAX = (int) screen.getBounds().getHeight();
@@ -278,14 +278,14 @@ public class Skyjo extends Application {
             }
             if(mainMenu.getButtonPlusBot().isClicked()){
                 mainMenu.getButtonPlusBot().setClicked(false);
-                if(players.size() + bots.size() < 8 ){
-                    bots.add(new Bot());
+                if(mainMenu.getPlayables().size() <= 8){
+                    mainMenu.add_bot();
                 }
             }
-            if(mainMenu.getButtonMinusBot().isClicked()){
-                mainMenu.getButtonMinusBot().setClicked(false);
-                if(bots.size() >= 1 ){
-                    bots.remove(0);
+            if(mainMenu.getButtonPlusPlayer().isClicked()){
+                mainMenu.getButtonPlusPlayer().setClicked(false);
+                if(mainMenu.getPlayables().size() <= 8){
+                     mainMenu.add_player();
                 }
             }
         }

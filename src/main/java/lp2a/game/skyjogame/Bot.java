@@ -2,7 +2,7 @@ package lp2a.game.skyjogame;
 
 import java.util.*;
 
-public class Bot {
+public class Bot implements Playable{
     private int x;
     private int y;
     private String name;
