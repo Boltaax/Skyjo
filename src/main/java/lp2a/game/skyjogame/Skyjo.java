@@ -31,7 +31,7 @@ public class Skyjo extends Application {
     static List<Player> players = new ArrayList<>();
     private static List<Bot> bots = new ArrayList<>();
     private CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
-    private CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
+    static CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
     static int currentPlayerIndex = 0;
     static int lastPlayerIndex = -1;
     static int turn = 0;
@@ -206,8 +206,10 @@ public class Skyjo extends Application {
                 }
             });
             scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                for (Card c : players.get(currentPlayerIndex).getHand()) {
-                    c.clicked(mouseEvent);
+                if (currentPlayerState != CurrentPlayerState.PRE_ROUND && currentPlayerState != CurrentPlayerState.WAITING) {
+                    for (Card c : players.get(currentPlayerIndex).getHand()) {
+                        c.clicked(mouseEvent);
+                    }
                 }
 
                 for(MenuButton menuButton : mainMenu.getAllButtons()){
@@ -216,8 +218,10 @@ public class Skyjo extends Application {
                         stage.close();
                     }
                 }
-                if (currentPlayerState != CurrentPlayerState.PRE_ROUND && currentPlayerState != CurrentPlayerState.ROUND_START) {
+                if (currentPlayerState != CurrentPlayerState.PRE_ROUND && currentPlayerState != CurrentPlayerState.ROUND_START && currentPlayerState != CurrentPlayerState.DISCARD_CLICK) {
                     deck.getCards().get(deck.size()-1).clicked(mouseEvent);
+                }
+                if (currentPlayerState != CurrentPlayerState.PRE_ROUND && currentPlayerState != CurrentPlayerState.ROUND_START && currentPlayerState != CurrentPlayerState.DECK_CLICK) {
                     discard.getCards().get(discard.size()-1).clicked(mouseEvent);
                 }
             });
