@@ -28,12 +28,21 @@ public class Player {
     }
 
     public boolean getAllVisibleCards(){
+        /*
         for (Card card : hand) {
             if(!card.isVisible()){
                 return false;
             }
         }
         return true;
+         */
+        int count = 0;
+        for (Card card : hand) {
+            if(card.isVisible()){
+                count++;
+            }
+        }
+        return count == 1;
     }
 
     public List<Card> getHand() {
@@ -147,19 +156,9 @@ public class Player {
     }
 
     public void replaceCard(Card card, Card newCard){
-        // We replace the card in the hand
-        hand.remove(card);
-        hand.add(newCard);
-        // We replace the card in the grid
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                if(grid[i][j] == card){
-                    grid[i][j] = newCard;
-                    newCard.setX(i*(newCard.getWidth()+5)+ x);
-                    newCard.setY(j*(newCard.getHeight()+5)+ y);
-                }
-            }
-        }
+        int index = hand.indexOf(card);
+        hand.remove(card); // cause of problems
+        hand.add(index, newCard);
     }
 
     public void displayCenter(){
