@@ -136,12 +136,12 @@ public class Skyjo extends Application {
 
         //Add players name and score
         for (int i = 0; i < players.size(); i++){
-            gc.setFont(Font.loadFont(getClass().getResourceAsStream("Pixelade.ttf"),XMAX/50));
+            gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"),XMAX/60));
             gc.setFill(players.get(i).getPlayercolor());
             gc.fillText(players.get(i).getName(), XMAX/50 ,i*YMAX/8+3*YMAX/100);
             gc.setFill(Color.BLACK);
-            gc.fillText("Hand Points : "+players.get(i).calculatePoints(),XMAX/50,i*YMAX/8+7*YMAX/100);
-            gc.fillText("Total Points : "+players.get(i).getPoints(),XMAX/50,i*YMAX/8+11*YMAX/100);
+            gc.fillText("Hand Points  "+players.get(i).calculatePoints(),XMAX/50,i*YMAX/8+7*YMAX/100);
+            gc.fillText("Total Points  "+players.get(i).getPoints(),XMAX/50,i*YMAX/8+11*YMAX/100);
         }
 
     }
