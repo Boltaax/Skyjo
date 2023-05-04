@@ -11,8 +11,8 @@ import java.util.List;
 public class MainMenu {
     private int width = Skyjo.XMAX;
     private int height = Skyjo.YMAX;
-    private MenuButton buttonPlusBot = new MenuButton("Button plus0.png", 32*width/50 ,20*height/50, width/15, width/15);
-    private MenuButton buttonMinusBot = new MenuButton("Button minus blue0.png", 15*width/50 ,20*height/50, width/15, width/15);
+    private MenuButton buttonPlusBot = new MenuButton("add_bots_button0.png", 25*width/50 ,20*height/50, width/5, width/15);
+    private MenuButton buttonPlusPlayer = new MenuButton("add_players_button0.png", 15*width/50 ,20*height/50, width/5, width/15);
     private MenuButton buttonMinusRed = new MenuButton("Button minus red0.png");
     private MenuButton buttonCrossBlue = new MenuButton("Button cross blue0.png");
     private MenuButton buttonCrossRed = new MenuButton("Button cross red0.png");
@@ -31,7 +31,7 @@ public class MainMenu {
         background.draw(gc);
         buttonExitRed.draw(gc);
         buttonPlusBot.draw(gc);
-        buttonMinusBot.draw(gc);
+        buttonPlusPlayer.draw(gc);
         buttonOkGreen.draw(gc);
     }
     public MenuButton getButtonExitRed() {
@@ -43,7 +43,7 @@ public class MainMenu {
     }
 
     public MenuButton getButtonMinusBot() {
-        return buttonMinusBot;
+        return buttonPlusPlayer;
     }
 
     public MenuButton getButtonPlusBot() {
@@ -52,7 +52,7 @@ public class MainMenu {
 
     public List<MenuButton> getAllButtons(){
         List<MenuButton> allButtons = new ArrayList<>();
-        allButtons.addAll(Arrays.asList(background, buttonCrossBlue, buttonCrossRed, buttonMenu, buttonExitBlue, buttonExitRed, buttonMinusBot, buttonMinusRed, buttonOkBlue, buttonOkGreen, buttonPlusBot));
+        allButtons.addAll(Arrays.asList(background, buttonCrossBlue, buttonCrossRed, buttonMenu, buttonExitBlue, buttonExitRed, buttonPlusPlayer, buttonMinusRed, buttonOkBlue, buttonOkGreen, buttonPlusBot));
         return allButtons;
     }
 }
