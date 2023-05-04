@@ -29,7 +29,6 @@ public class Skyjo extends Application {
     static int XMAX = (int) screen.getBounds().getWidth();
     static int YMAX = (int) screen.getBounds().getHeight();
     static List<Player> players = new ArrayList<>();
-    private static List<Bot> bots = new ArrayList<>();
     private CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
     static CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
     static int currentPlayerIndex = 0;
@@ -282,14 +281,20 @@ public class Skyjo extends Application {
             }
             if(mainMenu.getButtonPlusBot().isClicked()){
                 mainMenu.getButtonPlusBot().setClicked(false);
-                if(mainMenu.getPlayables().size() <= 8){
+                if(mainMenu.getPlayables().size() < 8){
                     mainMenu.add_bot();
                 }
             }
             if(mainMenu.getButtonPlusPlayer().isClicked()){
                 mainMenu.getButtonPlusPlayer().setClicked(false);
-                if(mainMenu.getPlayables().size() <= 8){
+                if(mainMenu.getPlayables().size() < 8){
                      mainMenu.add_player();
+                }
+            }
+            for(int i = 0; i< mainMenu.getSuppr_buttons().size(); i++){
+                if(mainMenu.getSuppr_buttons().get(i).isClicked()){
+                    mainMenu.getSuppr_buttons().get(i).setClicked(false);
+                    mainMenu.remove_playable(i);
                 }
             }
         }
