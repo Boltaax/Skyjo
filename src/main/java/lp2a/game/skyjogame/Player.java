@@ -28,14 +28,13 @@ public class Player {
     }
 
     public boolean getAllVisibleCards(){
-        /*
         for (Card card : hand) {
             if(!card.isVisible()){
                 return false;
             }
         }
         return true;
-         */
+        /*
         int count = 0;
         for (Card card : hand) {
             if(card.isVisible()){
@@ -43,6 +42,8 @@ public class Player {
             }
         }
         return count == 1;
+
+         */
     }
 
     public List<Card> getHand() {

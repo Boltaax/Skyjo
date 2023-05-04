@@ -141,6 +141,27 @@ public class Multiplayer {
     }
 
     public static int nextPlayer() {
+        // if a player has 3 same visible cards on a same column, remove the cards from the column and put them in the discard pile
+        for (int col = 0; col < 4; col++) {
+            int index1 = col * 3;
+            int index2 = index1 + 1;
+            int index3 = index1 + 2;
+            if (Skyjo.players.get(currentPlayerIndex).getCard(index1).isVisible()
+                    && Skyjo.players.get(currentPlayerIndex).getCard(index2).isVisible()
+                    && Skyjo.players.get(currentPlayerIndex).getCard(index3).isVisible()) {
+                if (Skyjo.players.get(currentPlayerIndex).getCard(index1).getValue() == Skyjo.players.get(currentPlayerIndex).getCard(index2).getValue()
+                        && Skyjo.players.get(currentPlayerIndex).getCard(index1).getValue() == Skyjo.players.get(currentPlayerIndex).getCard(index3).getValue()) {
+                    Skyjo.discard.addCard(Skyjo.players.get(currentPlayerIndex).getCard(index1));
+                    Skyjo.discard.addCard(Skyjo.players.get(currentPlayerIndex).getCard(index2));
+                    Skyjo.discard.addCard(Skyjo.players.get(currentPlayerIndex).getCard(index3));
+                    Skyjo.players.get(currentPlayerIndex).removeCard(index1);
+                    // removeCard(index2) will remove the card at index2, so we need to remove the card at index1 again
+                    Skyjo.players.get(currentPlayerIndex).removeCard(index1);
+                    Skyjo.players.get(currentPlayerIndex).removeCard(index1);
+                }
+            }
+        }
+
         Skyjo.displayPlayer(Skyjo.currentPlayerIndex);
         // if the current player has all his cards visible, we set the last player index to the player before him
         if (lastPlayerIndex == -1 && Skyjo.players.get(Skyjo.currentPlayerIndex).getAllVisibleCards()) {
@@ -156,7 +177,6 @@ public class Multiplayer {
             if (Skyjo.currentPlayerIndex < Skyjo.players.size() - 1) {
                 nextPlayerIndex = Skyjo.currentPlayerIndex + 1;
             } else {
-                // todo : if a player has 3 same cards on a column, remove the column
                 nextPlayerIndex = 0;
                 Skyjo.turn++;
             }
@@ -194,6 +214,8 @@ public class Multiplayer {
             nextPlayerIndex = -1;
             lastPlayerIndex = -1;
         }
+        System.out.println("Current player index: " + Skyjo.currentPlayerIndex);
+        System.out.println("Next player index: " + nextPlayerIndex);
         return nextPlayerIndex;
     }
 }
