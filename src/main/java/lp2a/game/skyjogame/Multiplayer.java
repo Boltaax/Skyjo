@@ -156,26 +156,43 @@ public class Multiplayer {
             if (Skyjo.currentPlayerIndex < Skyjo.players.size() - 1) {
                 nextPlayerIndex = Skyjo.currentPlayerIndex + 1;
             } else {
-                // todo : double the points of the player which has finished first if he has not the least points
                 // todo : if a player has 3 same cards on a column, remove the column
                 nextPlayerIndex = 0;
                 Skyjo.turn++;
             }
         } else {
+            // set the nextPlayerIndex to the player after the last player
+            if (Skyjo.lastPlayerIndex < Skyjo.players.size() - 1) {
+                nextPlayerIndex = Skyjo.lastPlayerIndex + 1;
+            } else {
+                nextPlayerIndex = 0;
+            }
             // it's the end of the round
             System.out.println("End of the round");
             // add the hand points of the players to their total points
             for (Player player : Skyjo.players) {
                 player.setPoints(player.calculatePoints());
             }
+            // check if the player which has finished first has the least points
+            int leastPoints = Skyjo.players.get(nextPlayerIndex).calculatePoints();
+            for (Player player : Skyjo.players) {
+                if (player.calculatePoints() < leastPoints) {
+                    leastPoints = player.calculatePoints();
+                }
+            }
+            // if it's not the case, we double his points
+            if (Skyjo.players.get(nextPlayerIndex).calculatePoints() != leastPoints) {
+                Skyjo.players.get(nextPlayerIndex).setPoints(Skyjo.players.get(nextPlayerIndex).calculatePoints() * 2);
+            }
             // If a player has 100 or more points, the game is over
             for (Player player : Skyjo.players) {
-                if (player.getPoints() >= 5) {
+                if (player.getPoints() >= 100) {
                     Skyjo.gameOver = true;
                     break;
                 }
             }
             nextPlayerIndex = -1;
+            lastPlayerIndex = -1;
         }
         return nextPlayerIndex;
     }
