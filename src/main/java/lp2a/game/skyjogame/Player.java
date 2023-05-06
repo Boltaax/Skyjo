@@ -34,16 +34,16 @@ public class Player implements Playable {
             }
         }
         return true;
-        /*
+
+        /* for debug
         int count = 0;
         for (Card card : hand) {
             if(card.isVisible()){
                 count++;
             }
         }
-        return count == 1;
-
-         */
+        return count == 2;
+        */
     }
 
     public List<Card> getHand() {
@@ -119,41 +119,6 @@ public class Player implements Playable {
         for(Card c : hand){
             c.draw(gc);
         }
-    }
-
-    // Choose n cards from the hand by clicking on them
-    public List<Card> chooseCards(int nbr){
-        List<Card> chosenCards = new ArrayList<>();
-        // We wait for the player to click on the cards he wants to choose
-        for (Card c : hand){
-            if (c.isClicked() && chosenCards.size() < 2){
-                chosenCards.add(c);
-                c.setVisible(true);
-                c.setClicked(false);
-            }
-        }
-        return chosenCards;
-    }
-
-    public Card clickOnCard(){
-        while (true) {
-            for (Card c : hand) {
-                if (c.isClicked()) {
-                    c.setClicked(false);
-                    return c;
-                }
-            }
-        }
-    }
-
-    public boolean hasClickedOnCard(){
-        for (Card c : hand) {
-            if (c.isClicked()) {
-                c.setClicked(false);
-                return true;
-            }
-        }
-        return false;
     }
 
     public void replaceCard(Card card, Card newCard){
