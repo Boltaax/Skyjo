@@ -5,6 +5,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class Card {
+    // Attributes
     private int value;
     private String name;
     private boolean visible;
@@ -12,8 +13,9 @@ public class Card {
     private int y = 10000;
     private int width = Skyjo.XMAX/25;
     private int height = Skyjo.YMAX/10;
-    private boolean clicked = false;
+    private boolean clicked = false; // If the card is clicked
 
+    // Methods
     public Card(int value, String name) {
         this.value = value;
         this.name = name;
@@ -80,28 +82,40 @@ public class Card {
         return name;
     }
 
+    /**
+     * This method check if the card is clicked
+     * @param e MouseEvent
+     */
     public void clicked(MouseEvent e){
         // Taking coordinates of where the mouse have been clicked
         double mouseX = e.getX();
         double mouseY = e.getY();
+        // Checking if the mouse is in the card
         if (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + this.height) {
             this.clicked = true;
         }
     }
 
+    /**
+     * This method draw the card
+     * @param gc GraphicsContext
+     */
     public void draw(GraphicsContext gc){
+        // Fill the border of the card with orange if the card is clicked
         if(this.clicked){
             gc.setFill(Color.ORANGE);
             gc.fillRoundRect(x-3, y-3, width+6 , height+6, width/4, width/4 );
         }
+        // Fill the card with red if the card is not visible
         if (!this.isVisible()) {
             gc.setFill(Color.RED);
             gc.fillRoundRect(x, y, width , height, width/4, width/4 );
         }
-        else {
+        else { // Fill the card with cyan if the card is visible
             gc.setFill(Color.CYAN);
             gc.fillRoundRect(x, y, width , height, width/4, width/4 );
         }
+        // Draw the value of the card
         gc.setFill(Color.BLACK);
         if (this.isVisible()) {
             gc.fillText(String.valueOf(this.value), x+width/2, y+height/2);

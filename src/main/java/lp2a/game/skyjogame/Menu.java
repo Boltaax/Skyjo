@@ -9,12 +9,14 @@ import javafx.stage.Stage;
 import java.util.Optional;
 
 public class Menu {
+    // Attributes
     private Stage stage;
     private ListView<String> playersList = new ListView<>();
     private ListView<Bot> botslist =new ListView<>();
     private TextField addPlayerField = new TextField();
     private boolean start = false;
 
+    // Methods
     public Menu() {
 
         // Créer une fenêtre pour afficher le menu

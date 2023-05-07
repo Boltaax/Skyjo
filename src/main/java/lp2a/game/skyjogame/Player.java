@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements Playable {
-    private int x;
-    private int y;
+    // Attributes
+    private int x; // x position on the screen
+    private int y; // y position on the screen
     private String name;
     private List<Card> hand;
     private int points;
-    private Card[][] grid = new Card[4][3];
+    private Card[][] grid = new Card[4][3]; // 4 rows and 3 columns
     private Color playercolor = Color.RED;
 
+    // Methods
     public Player() {
         this.points = 0;
         this.name = "Vous";
@@ -27,6 +29,9 @@ public class Player implements Playable {
         this.hand = new ArrayList<>();
     }
 
+    /**
+     * This method check if the player has all the cards visible in his hand
+     */
     public boolean getAllVisibleCards(){
         for (Card card : hand) {
             if(!card.isVisible()){
@@ -86,6 +91,9 @@ public class Player implements Playable {
         this.playercolor = playercolor;
     }
 
+    /**
+     * This method display first the grid of the player and set the position of each card in the grid
+     */
     public void fillGrid(){
         int i = 0;
         int j = 0;
@@ -105,6 +113,10 @@ public class Player implements Playable {
         return this.name;
     }
 
+    /**
+     * This method calculate the points of the hand of the player
+     * @return the total points of the hand
+     */
     public int calculatePoints() {
         int totalPoints = 0;
         for (Card card : hand) {
@@ -115,25 +127,42 @@ public class Player implements Playable {
         return totalPoints;
     }
 
+    /**
+     * This method display the hand of the player
+     * @param gc the graphic context
+     */
     public void drawHand(GraphicsContext gc){
         for(Card c : hand){
             c.draw(gc);
         }
     }
 
+    /**
+     * This method replace a card of the hand by another card
+     * @param card the card to replace
+     * @param newCard the new card
+     */
     public void replaceCard(Card card, Card newCard){
+        // We get the index of the card to replace
         int index = hand.indexOf(card);
-        hand.remove(card); // cause of problems
+        // We remove the card to replace, and we add the new card at the same index
+        hand.remove(card);
         hand.add(index, newCard);
     }
 
+    /**
+     * This method display the hand of the player in the center of the screen
+     */
     public void displayCenter(){
+        // We set the position of the player's hand in the center of the screen
         this.x = (45*Skyjo.XMAX/100);
         this.y = (40*Skyjo.YMAX/100);
+        // We set the size of the cards
         for(Card c : this.hand){
             c.setHeight(Skyjo.YMAX/6);
             c.setWidth(Skyjo.XMAX/16);
         }
+        // We set the position of the cards in the hand
         fillGrid();
     }
 

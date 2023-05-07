@@ -7,18 +7,29 @@ import java.util.Collections;
 import java.util.List;
 
 public class CardDeck {
+    // Attributes
     private List<Card> cards;
-    private int x;
-    private int y;
+    private int x; // x position on the screen
+    private int y; // y position on the screen
 
+    // Methods
+
+    /**
+     * Constructor of the CardDeck class
+     * @param is_empty if the deck is empty or not, if it's not empty, the deck is filled with all the cards
+     * @param x x position on the screen
+     * @param y y position on the screen
+     */
     public CardDeck(boolean is_empty, int x, int y) {
+        // Set the position of the deck
         this.x = x;
         this.y = y;
+        // If the deck is not empty, fill it with all the cards
         if(!is_empty){
             cards = new ArrayList<>();
             // Add 1 to 12 numbers cards
             for (int i = 1; i <= 12; i++) {
-                for (int j = 0; j < 10; j++) { // Il y a 10 cartes de chaque numéro
+                for (int j = 0; j < 10; j++) { // There are 10 cards of each number
                     cards.add(new Card(i, Integer.toString(i)));
                 }
             }
@@ -35,14 +46,17 @@ public class CardDeck {
             for(int i = 0; i<5; i++){
                 cards.add(new Card(-2, "-2"));
             }
+            // Shuffle the deck
             shuffle();
-
-        }
-        else {
+        } else { // If the deck is empty, create an empty deck
             cards = new ArrayList<>();
         }
     }
 
+    /**
+     * This method check if the deck is clicked
+     * @return true if the deck is clicked, false otherwise
+     */
     public boolean isClicked() {
         if (this.getCards().size() > 0) {
             return this.getCards().get(this.size() - 1).isClicked();
@@ -51,6 +65,10 @@ public class CardDeck {
         }
     }
 
+    /**
+     * This method set the clicked attribute of the last card of the deck (the one which will be on the top of the deck)
+     * @param clicked the new value of the clicked attribute
+     */
     public void setClicked(boolean clicked) {
         if (this.getCards().size() > 0) {
             this.getCards().get(this.size() - 1).setClicked(clicked);
@@ -62,9 +80,14 @@ public class CardDeck {
         Collections.shuffle(cards);
     }
 
+    /**
+     * This method pick up the last card of the deck (the one which will be on the top of the deck)
+     * @return the last card of the deck or null if the deck is empty
+     */
     public Card pick_up_card(){
         // return the last card of the deck, and remove it from the deck if it's not empty
         if (cards.size() > 0) {
+            // return the last card of the deck and remove it from the deck
             return cards.remove(cards.size() - 1);
         } else {
             return null;
@@ -87,7 +110,10 @@ public class CardDeck {
         this.x = x;
     }
 
-    //1st deal
+    /**
+     * This method deal 12 cards to each player
+     * @param players the list of players
+     */
     public void deal(List<Player> players) {
         for (Player player : players) {
             for (int i = 0; i < 4; i++) {
@@ -101,6 +127,9 @@ public class CardDeck {
         return cards.size();
     }
 
+    /**
+     * This method set the visibility of the last card of the deck (the one which will be on the top of the deck)
+     */
     public void setVisible(boolean visible) {
         // make the first card visible
         cards.get(cards.size()-1).setVisible(visible);

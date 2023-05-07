@@ -213,7 +213,7 @@ public class GameManager {
 
     /**
      * This method get the next player index and also check if a round is finished or if there is a column to remove each time a player has played
-     * @return true the next player index
+     * @return the next player index
      */
     private static int nextPlayer() {
         // if a player has 3 same visible cards on a same column, remove the cards from the column and put them in the discard pile
@@ -235,6 +235,7 @@ public class GameManager {
      * This method check if a player has 3 same visible cards on a same column, if it's the case, it removes the cards from the column and put them in the discard pile
      */
     private static void checkForColumnToRemove() {
+        // todo fix bug when a column is removed, we dont go to the next player and we pick up cards for the discard pile infinitely
         // check for each column
         for (int col = 0; col < 4; col++) {
             int index1 = col * 3;

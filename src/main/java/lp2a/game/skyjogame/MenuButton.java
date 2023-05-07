@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
 public class MenuButton {
+    // Attributes
     private Image img;
     private int width;
     private int height;
@@ -12,6 +13,7 @@ public class MenuButton {
     private int y;
     private boolean clicked = false;
 
+    // Methods
     public MenuButton(String path, int x, int y, int width, int height){
         this.img = new Image(getClass().getResourceAsStream(path));
         this.x = x;

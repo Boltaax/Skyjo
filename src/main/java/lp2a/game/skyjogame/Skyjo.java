@@ -24,26 +24,34 @@ import java.util.List;
 
 
 public class Skyjo extends Application {
-    static boolean gameOver = true;
+    // Attributes
+    static boolean gameOver = true; // to know if the game is over
     static Screen screen = Screen.getPrimary();
-    static int XMAX = (int) screen.getBounds().getWidth();
-    static int YMAX = (int) screen.getBounds().getHeight();
-    static List<Player> players = new ArrayList<>();
-    static CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
-    static CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
-    static int currentPlayerIndex = 0;
-    static int lastPlayerIndex = -1;
-    boolean cardRevealed = false; // to optimize
-    static GameState gameState = GameState.WAITING;
+    static int XMAX = (int) screen.getBounds().getWidth(); // variables to store the width of the screen
+    static int YMAX = (int) screen.getBounds().getHeight(); // variables to store the height of the screen
+    static List<Player> players = new ArrayList<>(); // list of players in the game
+    static CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50); // the deck of cards
+    static CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50); // the discard pile
+    static int currentPlayerIndex = 0; // the index of the current player
+    static int lastPlayerIndex = -1; // the index of the last which will play during the turn
+    static GameState gameState = GameState.ROUND_START; // the state of the game, used to know what to do depending on the state
     private Menu menu = new Menu();
     private MainMenu mainMenu = new MainMenu();
 
+    // Methods
+
+    /**
+     * This method displays the player's hand on the screen at the correct position
+     * @param id the id of the player to display
+     */
     public static void displayPlayer(int id){
+        // set the size of the cards
         for(Card c : players.get(id).getHand()){
             c.setWidth(XMAX/25);
             c.setHeight(YMAX/10);
             c.setHeight(YMAX/10);
         }
+        // set the position of the player depending on his id
         switch (id) {
             case 0 -> {
                 players.get(id).setX(10 * XMAX / 50);
@@ -78,9 +86,14 @@ public class Skyjo extends Application {
                 players.get(id).setY(2 * YMAX / 3 + YMAX / 50);
             }
         }
+        // set the position of the cards
         players.get(id).fillGrid();
     }
 
+    /**
+     * This method displays the background of the game
+     * @param gc the graphics context
+     */
     public void drawPlate(GraphicsContext gc){
         // calculate the center of the rectangle
         double centerX = (65*XMAX/50) / 2;
@@ -97,6 +110,10 @@ public class Skyjo extends Application {
         gc.fillRect(9*XMAX/50,0, XMAX , YMAX);
     }
 
+    /**
+     * This method displays the information of the players on the screen (name, hand points, total points)
+     * @param gc the graphics context
+     */
     public void drawInfoPlayers(GraphicsContext gc){
         //Instantiating the Light.Distant class
         Light.Distant light = new Light.Distant();
@@ -136,26 +153,39 @@ public class Skyjo extends Application {
 
     }
 
+    /**
+     * This method displays the deck on the screen
+     * @param gc the graphics context
+     */
     public void drawDeck(GraphicsContext gc){
+        // set the size of the cards
         for(Card c : deck.getCards()){
             c.setHeight(YMAX/6);
             c.setWidth(XMAX/16);
         }
+        // set the position of the deck
         deck.getCards().get(deck.size()-1).setX(19*XMAX/50);
         deck.getCards().get(deck.size()-1).setY(25*YMAX/50);
+        // draw the deck
         deck.getCards().get(deck.size()-1).draw(gc);
     }
 
+    /**
+     * This method displays the discard on the screen
+     * @param gc the graphics context
+     */
     public void drawDiscard(GraphicsContext gc){
+        // set the size of the cards
         for(Card c : discard.getCards()){
             c.setHeight(YMAX/6);
             c.setWidth(XMAX/16);
         }
+        // set the position of the discard
         discard.getCards().get(discard.size()-1).setX(36*XMAX/50);
         discard.getCards().get(discard.size()-1).setY(25*YMAX/50);
+        // draw the discard
         discard.getCards().get(discard.size()-1).draw(gc);
     }
-
 
     @Override
     public void start(Stage stage) {
@@ -166,7 +196,6 @@ public class Skyjo extends Application {
             root.getChildren().add(plate);
             deck.setX(XMAX);
             discard.setX(XMAX);
-
 
             new AnimationTimer() {
                 long lastTick = 0;
@@ -187,36 +216,41 @@ public class Skyjo extends Application {
             }.start();
             Scene scene = new Scene(root, XMAX, YMAX);
 
-            // Controls
+            // Controls for the game
+            // ESCAPE to go back to the menu
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
                 if (key.getCode() == KeyCode.ESCAPE) {
                     gameOver = true;
                     menu.show();
                 }
             });
+            // Mouse click to play a card, click on the menu buttons or click on the deck or discard
             scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                // Click on the cards
                 if (gameState != GameState.PRE_ROUND && gameState != GameState.WAITING) {
                     for (Card c : players.get(currentPlayerIndex).getHand()) {
                         c.clicked(mouseEvent);
                     }
                 }
-
+                // Click on the menu buttons
                 for(MenuButton menuButton : mainMenu.getAllButtons()){
                     menuButton.clicked(mouseEvent);
                     if(mainMenu.getButtonExitRed().isClicked()){
                         stage.close();
                     }
                 }
+                // Click on the deck
                 if (gameState != GameState.PRE_ROUND && gameState != GameState.ROUND_START && gameState != GameState.DISCARD_CLICK) {
                     deck.getCards().get(deck.size()-1).clicked(mouseEvent);
                 }
+                // Click on the discard
                 if (gameState != GameState.PRE_ROUND && gameState != GameState.ROUND_START) {
                     discard.getCards().get(discard.size()-1).clicked(mouseEvent);
                 }
             });
 
-
             // Start Game
+            // Create the players
             for (int i = 0; i<8; i++){
                 String playername = "Player "+(i+1);
                 Player p = new Player(playername);
@@ -245,12 +279,11 @@ public class Skyjo extends Application {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
-    // tick
+    // tick, code that is executed every frame
     public void tick(GraphicsContext gc){
-
+        // If the game is not over, we draw the game
         if (!gameOver) {
             drawPlate(gc);
             drawInfoPlayers(gc);
@@ -263,7 +296,7 @@ public class Skyjo extends Application {
             if (discard.size() >= 1) {
                 drawDiscard(gc);
             }
-        } else {
+        } else { // If the game is over, we draw the menu
             mainMenu.draw(gc);
             if(mainMenu.getButtonOkGreen().isClicked()){
                 mainMenu.getButtonOkGreen().setClicked(false);
@@ -299,6 +332,7 @@ public class Skyjo extends Application {
     }
 
     public static void main(String[] args) {
+        // launch the game
         launch();
     }
 }

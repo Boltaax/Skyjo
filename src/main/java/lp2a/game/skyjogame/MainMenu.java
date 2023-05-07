@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class MainMenu {
+    // Attributes
     private int width = Skyjo.XMAX;
     private int height = Skyjo.YMAX;
     private ArrayList<Playable> playables = new ArrayList<>();
@@ -30,6 +31,7 @@ public class MainMenu {
     private MenuButton buttonOkGreen = new MenuButton("Button ok green0.png", 40*width/50 ,20*height/50, width/15, width/15);
     private MenuButton background = new MenuButton("MainMenuInterface0.png", 0 , 0, width, height);
 
+    // Methods
     public MainMenu(){
     }
 
