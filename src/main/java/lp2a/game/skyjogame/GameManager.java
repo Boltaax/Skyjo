@@ -204,11 +204,11 @@ public class GameManager {
      */
     private static boolean isGameFinished() {
         for (Player player : players) {
-            if (player.getPoints() <= 100) {
-                return false;
+            if (player.getPoints() >= 100) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -291,8 +291,8 @@ public class GameManager {
             player.setPoints(player.calculatePoints());
         }
 
-        // check if the player which has finished first has the least points
-        int leastPoints = Skyjo.players.get(0).calculatePoints();
+        // check if the player which has finished first has the least points (this is the player after the last player)
+        int leastPoints = Skyjo.players.get(getNextPlayerIndex()).calculatePoints();
         for (Player player : Skyjo.players) {
             if (player.calculatePoints() < leastPoints) {
                 leastPoints = player.calculatePoints();
@@ -300,16 +300,32 @@ public class GameManager {
         }
 
         // if it's not the case, we double his points
-        if (Skyjo.players.get(lastPlayerIndex).calculatePoints() != leastPoints) {
-            Skyjo.players.get(lastPlayerIndex).setPoints(Skyjo.players.get(lastPlayerIndex).calculatePoints() * 2);
+        if (Skyjo.players.get(getNextPlayerIndex()).calculatePoints() != leastPoints) {
+            Skyjo.players.get(getNextPlayerIndex()).setPoints(Skyjo.players.get(getNextPlayerIndex()).calculatePoints() * 2);
         }
 
         // If a player has 100 or more points, the game is over
         if (isGameFinished()) {
             Skyjo.gameOver = true;
+            // we display the winner
+            //Skyjo.displayWinner(); // todo
+            // reinitialize the deck and the discard pile
+            deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
+            discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);
+            // remove all the cards from the players' hands
+            for (Player p : players) {
+                p.getHand().clear();
+            }
+            // reset the current player index
+            Skyjo.currentPlayerIndex = 0;
+            // reset the game state
+            Skyjo.gameState = GameState.ROUND_START;
+            // reset the list of players
+            Skyjo.players.clear();
+        } else {
+            gameState = GameState.PRE_ROUND;
         }
 
-        gameState = GameState.PRE_ROUND;
         lastPlayerIndex = -1;
     }
 }

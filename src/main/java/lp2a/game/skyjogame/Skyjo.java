@@ -227,7 +227,7 @@ public class Skyjo extends Application {
             // Mouse click to play a card, click on the menu buttons or click on the deck or discard
             scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                 // Click on the cards
-                if (gameState != GameState.PRE_ROUND && gameState != GameState.WAITING) {
+                if (gameState != GameState.PRE_ROUND && gameState != GameState.WAITING && players.size() > 0) {
                     for (Card c : players.get(currentPlayerIndex).getHand()) {
                         c.clicked(mouseEvent);
                     }
@@ -250,27 +250,6 @@ public class Skyjo extends Application {
             });
 
             // Start Game
-            // Create the players
-            for (int i = 0; i<8; i++){
-                String playername = "Player "+(i+1);
-                Player p = new Player(playername);
-                players.add(p);
-            }
-
-            // Deal cards
-            deck.deal(players);
-            // Pick up the first card of the deck and put it in the discard
-            discard.addCard(deck.pick_up_card());
-            //make the discard card visible
-            discard.setVisible(true);
-
-            // For each player in the game we assigned them a position in function of their position in the list
-            for(int i = 0; i < players.size(); i++){
-                displayPlayer(i);
-                //And this is for assigned the position for their cards, so that the cards positions are relatives based on each player position
-                players.get(i).fillGrid();
-            }
-
 
             // Primary Scene
             stage.setScene(scene);
@@ -296,11 +275,35 @@ public class Skyjo extends Application {
             if (discard.size() >= 1) {
                 drawDiscard(gc);
             }
+            // Display the current player at the center of the screen
+            if (currentPlayerIndex != -1 && players.size() > 0) {
+                players.get(currentPlayerIndex).displayCenter();
+            }
+
+            // Play the game
+            GameManager.game();
         } else { // If the game is over, we draw the menu
             mainMenu.draw(gc);
-            if(mainMenu.getButtonOkGreen().isClicked()){
+            if(mainMenu.getButtonOkGreen().isClicked() && mainMenu.getPlayables().size() > 1){
                 mainMenu.getButtonOkGreen().setClicked(false);
                 gameOver = false;
+                // get the players from the menu, convert them to players and add them to the game
+                for(int i = 0; i < mainMenu.getPlayables().size(); i++){
+                    Player p = new Player(mainMenu.getPlayables().get(i).getName());
+                    players.add(p);
+                }
+                // Deal cards
+                deck.deal(players);
+                // Pick up the first card of the deck and put it in the discard
+                discard.addCard(deck.pick_up_card());
+                //make the discard card visible
+                discard.setVisible(true);
+                // For each player in the game we assigned them a position in function of their position in the list
+                for(int i = 0; i < players.size(); i++){
+                    displayPlayer(i);
+                    //And this is for assigned the position for their cards, so that the cards positions are relatives based on each player position
+                    players.get(i).fillGrid();
+                }
             }
             if(mainMenu.getButtonPlusBot().isClicked()){
                 mainMenu.getButtonPlusBot().setClicked(false);
@@ -321,14 +324,6 @@ public class Skyjo extends Application {
                 }
             }
         }
-
-        // Display the current player at the center of the screen
-        if (currentPlayerIndex != -1) {
-            players.get(currentPlayerIndex).displayCenter();
-        }
-
-        // Play the game
-        GameManager.game();
     }
 
     public static void main(String[] args) {

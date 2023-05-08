@@ -16,7 +16,7 @@ public class MainMenu {
     // Attributes
     private int width = Skyjo.XMAX;
     private int height = Skyjo.YMAX;
-    private ArrayList<Playable> playables = new ArrayList<>();
+    private List<Playable> playables = new ArrayList<>();
     private ArrayList<MenuButton> labels = new ArrayList<>();
     private ArrayList<MenuButton> suppr_buttons = new ArrayList<>();
     private MenuButton buttonPlusBot = new MenuButton("add_bot_button1.png", 25*width/50 ,20*height/50, width/5, width/15);
@@ -236,7 +236,7 @@ public class MainMenu {
         return allButtons;
     }
 
-    public ArrayList<Playable> getPlayables() {
+    public List<Playable> getPlayables() {
         return playables;
     }
 }
