@@ -287,10 +287,16 @@ public class Skyjo extends Application {
             if(mainMenu.getButtonOkGreen().isClicked() && mainMenu.getPlayables().size() > 1){
                 mainMenu.getButtonOkGreen().setClicked(false);
                 gameOver = false;
-                // get the players from the menu, convert them to players and add them to the game
+                // get the players from the menu, convert them to players or bots and add them to the game
                 for(int i = 0; i < mainMenu.getPlayables().size(); i++){
-                    Player p = new Player(mainMenu.getPlayables().get(i).getName());
-                    players.add(p);
+                    // if the player is a bot, we add a bot, else we add a player
+                    if (mainMenu.getPlayables().get(i).isBot()){
+                        Bot b = new Bot(mainMenu.getPlayables().get(i).getName());
+                        players.add(b);
+                    } else {
+                        Player p = new Player(mainMenu.getPlayables().get(i).getName());
+                        players.add(p);
+                    }
                 }
                 // Deal cards
                 deck.deal(players);

@@ -39,6 +39,11 @@ public class GameManager {
             }
             // if the state is ROUND_START, each player can choose 2 cards from his hand
             case ROUND_START -> {
+                // if the current player is a bot, we call the play method
+                if (players.get(currentPlayerIndex).isBot()){
+                    Bot bot = (Bot) players.get(currentPlayerIndex);
+                    bot.play();
+                }
                 //make the current player choose 2 cards
                 List<Card> chosenCards = new ArrayList<>();
                 for (Card c : players.get(currentPlayerIndex).getHand()){
@@ -90,6 +95,11 @@ public class GameManager {
             }
             // if the state is WAITING, the player can click on the deck or the discard pile
             case WAITING -> {
+                // if the current player is a bot, we call the play method
+                if (players.get(currentPlayerIndex).isBot()){
+                    Bot bot = (Bot) players.get(currentPlayerIndex);
+                    bot.play();
+                }
                 // if the player click on the discard pile, we change the state to DISCARD_CLICK
                 if (discard.isClicked()) {
                     gameState = GameState.DISCARD_CLICK;
@@ -107,6 +117,11 @@ public class GameManager {
             }
             // if the state is DISCARD_CLICK, the player can exchange a card from his hand with the card on the discard pile
             case DISCARD_CLICK -> {
+                // if the current player is a bot, we call the play method
+                if (players.get(currentPlayerIndex).isBot()){
+                    Bot bot = (Bot) players.get(currentPlayerIndex);
+                    bot.play();
+                }
                 for (Card c : players.get(currentPlayerIndex).getHand()) {
                     if (c.isClicked()) {
                         // change the state to DISCARD_EXCHANGE
@@ -135,6 +150,11 @@ public class GameManager {
             }
             // if the state is DECK_CLICK, the player can exchange a card from his hand with the card on the deck pile or reveal one of his cards
             case DECK_CLICK -> {
+                // if the current player is a bot, we call the play method
+                if (players.get(currentPlayerIndex).isBot()){
+                    Bot bot = (Bot) players.get(currentPlayerIndex);
+                    bot.play();
+                }
                 // if the player click on the discard pile, he can exchange a card from his hand with the card on the discard pile
                 if (discard.isClicked()) {
                     gameState = GameState.DISCARD_CLICK;

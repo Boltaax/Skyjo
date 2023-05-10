@@ -5,16 +5,24 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Player implements Playable {
     // Attributes
     private int x; // x position on the screen
     private int y; // y position on the screen
     private String name;
-    private List<Card> hand;
+    protected List<Card> hand;
     private int points;
     private Card[][] grid = new Card[4][3]; // 4 rows and 3 columns
     private Color playercolor = Color.RED;
+    // For the bots
+    protected static final Random random = new Random();
+    protected static final String[] botNames = {"Spock", "Aziel", "Dimension", "Athena", "Lorelei", "Cerberus", "Gold", "Damon",
+            "Abel Tron", "Emilia Tron", "Botzilla", "RoboCop", "Circuit", "Cyber", "Droid", "Botanist",
+            "Botman", "Botman Begins", "Botanical", "Botarazzi", "Bottle flip",
+            "Botany Bay", "Bottoms Up", "Botanica",
+            "Botiful Mind", "Botsicle"};
 
     // Methods
     public Player() {
@@ -164,6 +172,13 @@ public class Player implements Playable {
         }
         // We set the position of the cards in the hand
         fillGrid();
+    }
+
+    /**
+     * This method check if the player is a bot
+     */
+    public boolean isBot() {
+        return false;
     }
 
     @Override
