@@ -260,14 +260,15 @@ public class GameManager {
     private static void checkForColumnToRemove() {
         // todo fix bug when a column is removed, we dont go to the next player and we pick up cards for the discard pile infinitely
         // Count the number of columns in the player's hand (3 cards = 1 column, 6 cards = 2 columns, 9 cards = 3 columns, 12 cards = 4 columns)
-        int nbColumns = 0;
-        if (Skyjo.players.get(currentPlayerIndex).getHand().size() == 6) {
+        int nbColumns = 1;
+        if (Skyjo.players.get(currentPlayerIndex).getHand().size() <= 6) {
             nbColumns = 2;
-        } else if (Skyjo.players.get(currentPlayerIndex).getHand().size() == 9) {
+        } else if (Skyjo.players.get(currentPlayerIndex).getHand().size() <= 9) {
             nbColumns = 3;
         } else if (Skyjo.players.get(currentPlayerIndex).getHand().size() == 12) {
             nbColumns = 4;
         }
+        System.out.println(nbColumns);
         // check for each column
         for (int col = 0; col < nbColumns; col++) {
             int index1 = col * 3;

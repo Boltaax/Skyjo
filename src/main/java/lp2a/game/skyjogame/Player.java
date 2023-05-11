@@ -6,7 +6,11 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+/**
+ *
 
+
+ */
 public class Player implements Playable {
     // Attributes
     private int x; // x position on the screen
