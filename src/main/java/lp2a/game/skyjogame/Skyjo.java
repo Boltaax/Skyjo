@@ -214,7 +214,7 @@ public class Skyjo extends Application {
                         return;
                     }
                     // Here we are defining the frequency
-                    if (now - lastTick > 1000000000 / 5) { // 1000000000 could be a constant based on your PC power and the more we divide, the faster it will be refreshing
+                    if (now - lastTick > 1000000000 / 20) { // 1000000000 could be a constant based on your PC power and the more we divide, the faster it will be refreshing
                         lastTick = now;
                         tick(gc);
                     }
@@ -233,6 +233,9 @@ public class Skyjo extends Application {
                     }
                     // remove all the players from the list
                     players.clear();
+                    currentPlayerIndex = 0;
+                    lastPlayerIndex = -1;
+                    gameState = GameState.ROUND_START;
                 }
             });
             // Mouse click to play a card, click on the menu buttons or click on the deck or discard
@@ -311,7 +314,7 @@ public class Skyjo extends Application {
                         Bot b = new Bot(mainMenu.getPlayables().get(i).getName());
                         players.add(b);
                     } else {
-                        Player p = new Player(mainMenu.getPlayables().get(i).getName());
+                        Player p = new Player(mainMenu.getPlayables().get(i).getName(), mainMenu.getPlayables().get(i).getPlayercolor());
                         players.add(p);
                     }
                 }
