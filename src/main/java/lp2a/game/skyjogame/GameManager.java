@@ -274,7 +274,6 @@ public class GameManager {
         } else if (Skyjo.players.get(currentPlayerIndex).getHand().size() == 12) {
             nbColumns = 4;
         }
-        System.out.println(nbColumns);
         // check for each column
         for (int col = 0; col < nbColumns; col++) {
             int index1 = col * 3;
