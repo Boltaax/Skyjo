@@ -20,6 +20,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -30,6 +31,8 @@ public class Skyjo extends Application {
     static int XMAX = (int) screen.getBounds().getWidth(); // variables to store the width of the screen
     static int YMAX = (int) (screen.getBounds().getHeight()*0.95); // variables to store the height of the screen
     static List<Player> players = new ArrayList<>(); // list of players in the game
+    static int[] possible_cards = new int[15]; // Creating the array for the number of possible cards that are pickable for each value
+    static int pickable_cards = 150; // Number of cards that aren't visible
     static CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50); // the deck of cards
     static CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50); // the discard pile
     static int currentPlayerIndex = 0; // the index of the current player

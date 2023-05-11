@@ -31,7 +31,7 @@ public class Player implements Playable {
     // Methods
     public Player() {
         this.points = 0;
-        this.name = "Vous";
+        this.name = "You";
         this.hand = new ArrayList<>();
     }
 
@@ -48,7 +48,7 @@ public class Player implements Playable {
     }
 
     /**
-     * This method check if the player has all the cards visible in his hand
+     * This method checks if the player has all the cards visible in his hand
      */
     public boolean getAllVisibleCards(){
         for (Card card : hand) {
@@ -67,6 +67,19 @@ public class Player implements Playable {
         }
         return count == 2;
         */
+    }
+
+    /**
+     * This method calculates the number of card that are not facing up
+     */
+    public int not_visibible_cards(){
+        int val = 0;
+        for (Card c : hand){
+            if(!c.isVisible()){
+                val++;
+            }
+        }
+        return val;
     }
 
     public List<Card> getHand() {

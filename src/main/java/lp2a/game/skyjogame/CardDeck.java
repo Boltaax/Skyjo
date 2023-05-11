@@ -34,6 +34,13 @@ public class CardDeck {
                 }
             }
 
+            //Settings the number of cards that can be picked in the game
+            for (int i = 1; i<15; i++){
+                Skyjo.possible_cards[i] = 10;
+            }
+            Skyjo.possible_cards[0] = 5;
+            Skyjo.possible_cards[2] = 15;
+
             // Add 0's cards
             for(int i = 0; i<15; i++){
                 cards.add(new Card(0, "0"));

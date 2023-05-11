@@ -56,6 +56,13 @@ public class Card {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+        if(this.isVisible()){
+            Skyjo.possible_cards[this.value+2] --;
+            Skyjo.pickable_cards--;
+        } else{
+            Skyjo.possible_cards[this.value+2] ++;
+            Skyjo.pickable_cards++;
+        }
     }
 
     public int getX() {
@@ -107,7 +114,7 @@ public class Card {
         // Fill the border of the card with orange if the card is clicked
         if (this.clicked) {
             gc.setFill(Color.RED);
-            gc.fillRoundRect(x - 3, y - 3, width + 6, height + 6, width / 4, width / 4);
+            gc.fillRoundRect(x - 4, y - 4, width + 8, height + 8, width / 4, width / 4);
         }
         // Fill the card with red if the card is not visible
         if (!this.isVisible()) {

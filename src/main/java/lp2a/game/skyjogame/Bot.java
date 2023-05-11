@@ -61,18 +61,24 @@ public class Bot extends Player{
                 hand.get(hand.indexOf(selectedCard)).setClicked(true);
                 break;
             case DECK_CLICK:
-                Card card = Skyjo.deck.pick_up_card();
-                value = card.getValue();
+                value = Skyjo.discard.getCards().get(Skyjo.discard.size() - 1).getValue();
                 selectedCard = select_card(value);
                 if (selectedCard != null) {// The value is better so take this card
                     Skyjo.discard.setClicked(true);
-                } else {// The value is worse so reveal a card
-                    // Click randomly a card not visible from the hand to reveal it
+                } else {// The value is worse so reveal a card or exchange an unrevealed card
+
+                    // Click randomly a card not visible from the hand
                     int index = random.nextInt(hand.size());
                     while (hand.get(index).isVisible()) {
                         index = random.nextInt(hand.size());
                     }
-                    hand.get(index).setClicked(true);
+                    // If the expectation of our hand is bigger than the value of the card we take it (i.e : all our cards are 0, 1 and -2, we have a 3 in the discard but the expectation of our hands is 7.6 it's better to take the 3)
+                    if(value <= expectation()){
+                        selectedCard = hand.get(index);
+                        Skyjo.discard.setClicked(true);
+                    } else{ // If not, we reveal one of the card
+                        hand.get(index).setClicked(true);
+                    }
                 }
                 break;
         }
@@ -98,4 +104,16 @@ public class Bot extends Player{
             return null;
         }
     }
+
+    private double expectation() {
+        double value = 0;
+
+        for(int i = -2; i<= 12; i++){
+            value += i*Skyjo.possible_cards[i+2];
+        }
+        value = value/ Skyjo.pickable_cards;
+
+        return value;
+    }
+
 }
