@@ -296,6 +296,7 @@ public class GameManager {
                     // removeCard(index2) will remove the card at index2, so we need to remove the card at index1 again
                     Skyjo.players.get(currentPlayerIndex).removeCard(index1);
                     Skyjo.players.get(currentPlayerIndex).removeCard(index1);
+                    nbColumns--;
                 }
             }
         }
