@@ -1,8 +1,14 @@
 
 package lp2a.game.skyjogame;
 
+import javafx.application.Platform;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static lp2a.game.skyjogame.Skyjo.*;
 
@@ -345,9 +351,17 @@ public class GameManager {
 
         // If a player has 100 or more points, the game is over
         if (isGameFinished()) {
+            // Ending the game and going back to the Main Menu
             Skyjo.gameOver = true;
-            // we display the winner
-            //Skyjo.displayWinner(); // todo
+            // We check who has the least points.
+            Player winner = players.get(0);
+            for(Player p : players){
+                if(p.getPoints() < winner.getPoints()){
+                    winner = p;
+                }
+            }
+            lastWinner = winner;
+
             // reinitialize the deck and the discard pile
             deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50);
             discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50);

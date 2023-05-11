@@ -1,11 +1,14 @@
 package lp2a.game.skyjogame;
 
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +39,7 @@ public class MainMenu {
         buttonPlusBot.draw(gc);
         buttonPlusPlayer.draw(gc);
         buttonOkGreen.draw(gc);
+        displayWinner(gc);
         display_labels(gc);
         display_playables(gc);
         display_suppr(gc);
@@ -81,6 +85,20 @@ public class MainMenu {
             }
             labels.get(i).draw(gc);
         }
+    }
+
+    public void displayWinner(GraphicsContext gc){
+        if (Skyjo.lastWinner != null){
+            gc.setFill(Color.BLACK);
+            gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"),5*width/100));
+            gc.fillText("The last winner was " +Skyjo.lastWinner, 41*width/200 ,77*height/200 );
+            gc.setFill(Color.DARKGOLDENROD);
+            gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"),5*width/100));
+            gc.fillText("The last winner was " +Skyjo.lastWinner, 10*width/50 ,19*height/50 );
+        }
+        gc.setFill(Color.BLACK);
+        gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"),width/60));
+
     }
 
     public void display_suppr(GraphicsContext gc){
@@ -169,28 +187,58 @@ public class MainMenu {
     public void add_player(){
         // Opening a new thread to overpass the main user interface and still display the Menu while opeing a dialog box in a showAndWait method.
         Platform.runLater(() ->{
-            // Creating a dialog box to add the name of the new player
-            TextInputDialog dialog = new TextInputDialog("New Player");
+            // Creating a dialog box to add the name and color of the new player
+            Dialog<Pair<String, Color>> dialog = new Dialog<>();
             dialog.setTitle("New Player");
-            dialog.setHeaderText("What will be the name of the new player ?");
-            dialog.setContentText("Pseudo:");
+            dialog.setHeaderText("What will be the name and color of the new player ?");
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-            // Adding a filter for user input
-            TextField editor = dialog.getEditor();
-            editor.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue.length() > 10) { // Text can't be longer than 10 caracters
-                    editor.setText(oldValue);
+            // Creating a GridPane to hold the input fields
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(20, 150, 10, 10));
+
+            // Adding a Text field for player name
+            TextField nameField = new TextField("New Player");
+            nameField.setPromptText("Pseudo");
+            nameField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue.length() > 10) { // Text can't be longer than 10 characters
+                    nameField.setText(oldValue);
                 }
                 if (!newValue.matches("[a-zA-Z0-9- ]*")) { // Players name can only have letters and numbers (It protects the code from possible bugs with name with symbols)
-                    editor.setText(newValue.replaceAll("[^a-zA-Z0-9- ]", ""));
+                    nameField.setText(newValue.replaceAll("[^a-zA-Z0-9- ]", ""));
                 }
             });
 
+            // Adding a Color picker for player color
+            ColorPicker colorPicker = new ColorPicker(Color.BLUE);
+
+            // Adding the input fields to the GridPane
+            grid.add(new Label("Name:"), 0, 0);
+            grid.add(nameField, 1, 0);
+            grid.add(new Label("Color:"), 0, 1);
+            grid.add(colorPicker, 1, 1);
+
+            // Adding the GridPane to the dialog box
+            dialog.getDialogPane().setContent(grid);
+
+            // Focusing the name field by default
+            Platform.runLater(() -> nameField.requestFocus());
+
+            // Handling the OK button click
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == ButtonType.OK) {
+                    return new Pair<>(nameField.getText(), colorPicker.getValue());
+                }
+                return null;
+            });
+
             // Display the box
-            Optional<String> result = dialog.showAndWait();
+            Optional<Pair<String, Color>> result = dialog.showAndWait();
             result.ifPresent(newPlayer -> {
-                //Creating the new player with the name entered
-                playables.add(new Player(newPlayer));
+                //Creating the new player with the name and color entered
+                playables.add(new Player(newPlayer.getKey(), newPlayer.getValue()));
             });
         });
 

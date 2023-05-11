@@ -19,7 +19,7 @@ public class Player implements Playable {
     protected List<Card> hand;
     private int points;
     private Card[][] grid = new Card[4][3]; // 4 rows and 3 columns
-    private Color playercolor = Color.RED;
+    private Color playercolor = Color.DARKBLUE;
     // For the bots
     protected static final Random random = new Random();
     protected static final String[] botNames = {"Spock", "Aziel", "Dimension", "Athena", "Lorelei", "Cerberus", "Gold", "Damon",
@@ -39,6 +39,12 @@ public class Player implements Playable {
         this.points = 0;
         this.name = name;
         this.hand = new ArrayList<>();
+    }
+    public Player(String name, Color color) {
+        this.points = 0;
+        this.name = name;
+        this.hand = new ArrayList<>();
+        this.playercolor = color;
     }
 
     /**
