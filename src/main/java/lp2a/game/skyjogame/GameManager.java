@@ -320,21 +320,27 @@ public class GameManager {
     private static void endRound() {
         // add the hand points of the players to their total points
         for (Player player : Skyjo.players) {
-            player.setPoints(player.calculatePoints());
+            if (player != players.get(getNextPlayerIndex())){
+                player.setPoints(player.getPoints() + player.calculateAll());
+            }
+
         }
 
         // check if the player which has finished first has the least points (this is the player after the last player)
-        int leastPoints = Skyjo.players.get(getNextPlayerIndex()).calculatePoints();
+        int leastPoints = Skyjo.players.get(getNextPlayerIndex()).calculateAll();
         for (Player player : Skyjo.players) {
             if (player.calculatePoints() < leastPoints) {
-                leastPoints = player.calculatePoints();
+                leastPoints = player.calculateAll();
             }
         }
-
         // if it's not the case, we double his points
-        if (Skyjo.players.get(getNextPlayerIndex()).calculatePoints() != leastPoints) {
-            Skyjo.players.get(getNextPlayerIndex()).setPoints(Skyjo.players.get(getNextPlayerIndex()).calculatePoints() * 2);
+        if (Skyjo.players.get(getNextPlayerIndex()).calculateAll() != leastPoints) {
+            Skyjo.players.get(getNextPlayerIndex()).setPoints(Skyjo.players.get(getNextPlayerIndex()).getPoints() + Skyjo.players.get(getNextPlayerIndex()).calculateAll() * 2);
         }
+        else {
+            Skyjo.players.get(getNextPlayerIndex()).setPoints(Skyjo.players.get(getNextPlayerIndex()).getPoints() + Skyjo.players.get(getNextPlayerIndex()).calculateAll());
+        }
+
 
         // If a player has 100 or more points, the game is over
         if (isGameFinished()) {

@@ -21,13 +21,7 @@ public class MainMenu {
     private ArrayList<MenuButton> suppr_buttons = new ArrayList<>();
     private MenuButton buttonPlusBot = new MenuButton("add_bot_button1.png", 25*width/50 ,20*height/50, width/5, width/15);
     private MenuButton buttonPlusPlayer = new MenuButton("add_player_button1.png", 15*width/50 ,20*height/50, width/5, width/15);
-    private MenuButton buttonMinusRed = new MenuButton("Button minus red0.png");
-    private MenuButton buttonCrossBlue = new MenuButton("Button cross blue0.png");
-    private MenuButton buttonCrossRed = new MenuButton("Button cross red0.png");
     private MenuButton buttonExitRed = new MenuButton("Button exit red0.png", 45*width/50 ,5*height/50, width/15, width/15);
-    private MenuButton buttonExitBlue = new MenuButton("Button exit blue0.png");
-    private MenuButton buttonMenu = new MenuButton("Button menu0.png");
-    private MenuButton buttonOkBlue = new MenuButton("Button ok blue0.png");
     private MenuButton buttonOkGreen = new MenuButton("Button ok green0.png", 40*width/50 ,20*height/50, width/15, width/15);
     private MenuButton background = new MenuButton("MainMenuInterface0.png", 0 , 0, width, height);
 

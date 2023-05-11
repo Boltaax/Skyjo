@@ -110,7 +110,7 @@ public class Player implements Playable {
                 j = 0;
                 i++; //If yes we go the next column
             }
-            grid[i][j] = card; // We define the position of the card in the grid of each player (he's hand)
+            //grid[i][j] = card; // We define the position of the card in the grid of each player (he's hand)
             card.setX(i*(card.getWidth()+5)+ x); // We define the position of the card for the display
             card.setY(j*(card.getHeight()+5)+ y);
             j++; // Adding 1 to the position in the line
@@ -131,6 +131,14 @@ public class Player implements Playable {
             if(card.isVisible()){
                 totalPoints += card.getValue();
             }
+        }
+        return totalPoints;
+    }
+
+    public int calculateAll(){
+        int totalPoints = 0;
+        for (Card card : hand) {
+            totalPoints += card.getValue();
         }
         return totalPoints;
     }

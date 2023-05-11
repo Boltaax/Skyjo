@@ -225,6 +225,11 @@ public class Skyjo extends Application {
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
                 if (key.getCode() == KeyCode.ESCAPE) {
                     gameOver = true;
+                    // remove all the cards from the players' hands
+                    for (Player p : players) {
+                        p.getHand().clear();
+                    }
+                    players.clear();
                 }
             });
             // Mouse click to play a card, click on the menu buttons or click on the deck or discard
@@ -307,6 +312,7 @@ public class Skyjo extends Application {
                         players.add(p);
                     }
                 }
+                mainMenu= new MainMenu();
                 // Deal cards
                 deck.deal(players);
                 // Pick up the first card of the deck and put it in the discard
