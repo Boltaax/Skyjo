@@ -81,6 +81,9 @@ public class GameManager {
                     currentPlayerIndex = players.indexOf(firstPlayer);
                     // reorganize the list of players so that the first player is at the beginning of the list
                     players = GameManager.reorganizePlayers(players, currentPlayerIndex);
+                    for (int i = 0; i<players.size(); i++){
+                        Skyjo.displayPlayer(i);
+                    }
                     currentPlayerIndex = 0;
                     // reset the clicked state of the cards
                     for (Player p : players){

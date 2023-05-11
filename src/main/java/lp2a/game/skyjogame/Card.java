@@ -106,7 +106,7 @@ public class Card {
         Image front = img_nb();
         // Fill the border of the card with orange if the card is clicked
         if (this.clicked) {
-            gc.setFill(Color.ORANGE);
+            gc.setFill(Color.RED);
             gc.fillRoundRect(x - 3, y - 3, width + 6, height + 6, width / 4, width / 4);
         }
         // Fill the card with red if the card is not visible

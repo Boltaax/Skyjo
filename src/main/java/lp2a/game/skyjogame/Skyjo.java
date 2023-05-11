@@ -213,7 +213,7 @@ public class Skyjo extends Application {
                         return;
                     }
                     // Here we are defining the frequency
-                    if (now - lastTick > 1000000000 / 2) { // 1000000000 could be a constant based on your PC power and the more we divide, the faster it will be refreshing
+                    if (now - lastTick > 1000000000 / 5) { // 1000000000 could be a constant based on your PC power and the more we divide, the faster it will be refreshing
                         lastTick = now;
                         tick(gc);
                     }
