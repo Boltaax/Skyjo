@@ -36,8 +36,10 @@ public class Skyjo extends Application {
     static int lastPlayerIndex = -1; // the index of the last which will play during the turn
     static GameState gameState = GameState.ROUND_START; // the state of the game, used to know what to do depending on the state
     private MainMenu mainMenu = new MainMenu();
+    static Player lastWinner = null;
 
     // Methods
+
 
     /**
      * This method displays the player's hand on the screen at the correct position
@@ -229,6 +231,7 @@ public class Skyjo extends Application {
                     for (Player p : players) {
                         p.getHand().clear();
                     }
+                    // remove all the players from the list
                     players.clear();
                 }
             });

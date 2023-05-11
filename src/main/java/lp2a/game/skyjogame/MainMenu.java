@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class MainMenu {
         buttonPlusBot.draw(gc);
         buttonPlusPlayer.draw(gc);
         buttonOkGreen.draw(gc);
+        displayWinner(gc);
         display_labels(gc);
         display_playables(gc);
         display_suppr(gc);
@@ -81,6 +83,20 @@ public class MainMenu {
             }
             labels.get(i).draw(gc);
         }
+    }
+
+    public void displayWinner(GraphicsContext gc){
+        if (Skyjo.lastWinner != null){
+            gc.setFill(Color.BLACK);
+            gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"),5*width/100));
+            gc.fillText("The last winner was " +Skyjo.lastWinner, 41*width/200 ,77*height/200 );
+            gc.setFill(Color.DARKGOLDENROD);
+            gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"),5*width/100));
+            gc.fillText("The last winner was " +Skyjo.lastWinner, 10*width/50 ,19*height/50 );
+        }
+        gc.setFill(Color.BLACK);
+        gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"),width/60));
+
     }
 
     public void display_suppr(GraphicsContext gc){
