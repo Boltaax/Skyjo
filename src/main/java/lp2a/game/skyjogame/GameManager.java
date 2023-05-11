@@ -274,7 +274,6 @@ public class GameManager {
         } else if (Skyjo.players.get(currentPlayerIndex).getHand().size() == 12) {
             nbColumns = 4;
         }
-        System.out.println(nbColumns);
         // check for each column
         for (int col = 0; col < nbColumns; col++) {
             int index1 = col * 3;
@@ -296,6 +295,7 @@ public class GameManager {
                     // removeCard(index2) will remove the card at index2, so we need to remove the card at index1 again
                     Skyjo.players.get(currentPlayerIndex).removeCard(index1);
                     Skyjo.players.get(currentPlayerIndex).removeCard(index1);
+                    nbColumns--;
                 }
             }
         }
