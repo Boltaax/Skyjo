@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 import java.util.*;
 
 public class Bot extends Player{
+
+
+    Card selectedCard = null;
     // Attributes
     public Bot() {
         super(botNames[random.nextInt(botNames.length)]);
@@ -23,7 +26,6 @@ public class Bot extends Player{
     }
 
     public void play() {
-        Card selectedCard = null;
         switch (Skyjo.gameState) {
             case ROUND_START:
                 // Click on 2 different cards of the hand
@@ -48,8 +50,6 @@ public class Bot extends Player{
                 break;
             case DISCARD_CLICK:
                 // Click on the selected card
-                value = Skyjo.discard.getCards().get(Skyjo.discard.size() - 1).getValue();
-                selectedCard = select_card(value);
                 hand.get(hand.indexOf(selectedCard)).setClicked(true);
                 break;
             case DECK_CLICK:
