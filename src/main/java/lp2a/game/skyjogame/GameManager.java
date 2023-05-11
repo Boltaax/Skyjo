@@ -269,7 +269,7 @@ public class GameManager {
             nbColumns = 4;
         }
         // check for each column
-        for (int col = nbColumns; col < 4; col++) {
+        for (int col = 0; col < nbColumns; col++) {
             int index1 = col * 3;
             int index2 = index1 + 1;
             int index3 = index1 + 2;

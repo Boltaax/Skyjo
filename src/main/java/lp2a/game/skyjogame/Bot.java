@@ -4,6 +4,12 @@ import javafx.scene.paint.Color;
 
 import java.util.*;
 
+/**
+ *
+ *
+ *
+ */
+
 public class Bot extends Player{
 
 
@@ -24,6 +30,8 @@ public class Bot extends Player{
     public boolean isBot() {
         return true;
     }
+
+
 
     public void play() {
         switch (Skyjo.gameState) {
