@@ -28,7 +28,7 @@ public class Skyjo extends Application {
     static boolean gameOver = true; // to know if the game is over
     static Screen screen = Screen.getPrimary();
     static int XMAX = (int) screen.getBounds().getWidth(); // variables to store the width of the screen
-    static int YMAX = (int) screen.getBounds().getHeight(); // variables to store the height of the screen
+    static int YMAX = (int) (screen.getBounds().getHeight()*0.95); // variables to store the height of the screen
     static List<Player> players = new ArrayList<>(); // list of players in the game
     static CardDeck deck = new CardDeck(false, 20*XMAX/50, 20*YMAX/50); // the deck of cards
     static CardDeck discard = new CardDeck(true, 36*XMAX/50, 20*YMAX/50); // the discard pile
@@ -187,6 +187,11 @@ public class Skyjo extends Application {
         discard.getCards().get(discard.size()-1).draw(gc);
     }
 
+    /**
+     * This method displays the discard on the screen
+     * @param stage is basically all scenes and displayed things in the code are showed on the stage
+     */
+
     @Override
     public void start(Stage stage) {
         try {
@@ -202,13 +207,13 @@ public class Skyjo extends Application {
 
                 @Override
                 public void handle(long now) {
-                    if (lastTick == 0) {
+                    if (lastTick == 0) { // This is testing when we exit the code it stops refreshing frames.
                         lastTick = now;
                         tick(gc);
                         return;
                     }
-
-                    if (now - lastTick > 1000000000 / 2) {
+                    // Here we are defining the frequency
+                    if (now - lastTick > 1000000000 / 2) { // 1000000000 could be a constant based on your PC power and the more we divide, the faster it will be refreshing
                         lastTick = now;
                         tick(gc);
                     }
@@ -261,6 +266,7 @@ public class Skyjo extends Application {
     }
 
     // tick, code that is executed every frame
+
     public void tick(GraphicsContext gc){
         // If the game is not over, we draw the game
         if (!gameOver) {

@@ -1,6 +1,7 @@
 package lp2a.game.skyjogame;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -100,26 +101,57 @@ public class Card {
      * This method draw the card
      * @param gc GraphicsContext
      */
-    public void draw(GraphicsContext gc){
+    public void draw(GraphicsContext gc) {
+        Image background = new Image(getClass().getResourceAsStream("Cards/Skyjo card back0.png"));
+        Image front = img_nb();
         // Fill the border of the card with orange if the card is clicked
-        if(this.clicked){
+        if (this.clicked) {
             gc.setFill(Color.ORANGE);
-            gc.fillRoundRect(x-3, y-3, width+6 , height+6, width/4, width/4 );
+            gc.fillRoundRect(x - 3, y - 3, width + 6, height + 6, width / 4, width / 4);
         }
         // Fill the card with red if the card is not visible
         if (!this.isVisible()) {
-            gc.setFill(Color.RED);
-            gc.fillRoundRect(x, y, width , height, width/4, width/4 );
+            gc.drawImage(background, x, y, width, height);
+
+        } else { // Fill the card with cyan if the card is visible
+            gc.drawImage(front, x, y, width, height);
         }
-        else { // Fill the card with cyan if the card is visible
-            gc.setFill(Color.CYAN);
-            gc.fillRoundRect(x, y, width , height, width/4, width/4 );
+    }
+
+    public Image img_nb(){
+        switch(this.value){
+            case -2:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card -2.png"));
+            case -1:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card -1.png"));
+            case 0:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 0.png"));
+            case 1:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 1.png"));
+            case 2:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 2.png"));
+            case 3:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 3.png"));
+            case 4:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 4.png"));
+            case 5:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 5.png"));
+            case 6:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 6.png"));
+            case 7:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 7.png"));
+            case 8:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 8.png"));
+            case 9:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 9.png"));
+            case 10:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 10.png"));
+            case 11:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 11.png"));
+            case 12:
+                return new Image(getClass().getResourceAsStream("Cards/Skyjo card 12.png"));
         }
-        // Draw the value of the card
-        gc.setFill(Color.BLACK);
-        if (this.isVisible()) {
-            gc.fillText(String.valueOf(this.value), x+width/2, y+height/2);
-        }
+        return null;
     }
 
 }
