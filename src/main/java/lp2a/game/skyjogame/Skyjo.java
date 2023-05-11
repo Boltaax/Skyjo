@@ -35,7 +35,6 @@ public class Skyjo extends Application {
     static int currentPlayerIndex = 0; // the index of the current player
     static int lastPlayerIndex = -1; // the index of the last which will play during the turn
     static GameState gameState = GameState.ROUND_START; // the state of the game, used to know what to do depending on the state
-    private Menu menu = new Menu();
     private MainMenu mainMenu = new MainMenu();
 
     // Methods
@@ -226,7 +225,6 @@ public class Skyjo extends Application {
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key -> {
                 if (key.getCode() == KeyCode.ESCAPE) {
                     gameOver = true;
-                    menu.show();
                 }
             });
             // Mouse click to play a card, click on the menu buttons or click on the deck or discard
@@ -284,6 +282,11 @@ public class Skyjo extends Application {
             // Display the current player at the center of the screen
             if (currentPlayerIndex != -1 && players.size() > 0) {
                 players.get(currentPlayerIndex).displayCenter();
+                gc.setFill(Color.BLACK);
+                String cp = players.get(currentPlayerIndex).getName();
+                gc.fillText("It is the turn of ", (46*XMAX/100), (36*YMAX/100));
+                gc.setFill(players.get(currentPlayerIndex).getPlayercolor());
+                gc.fillText(cp, (60*XMAX/100), (36*YMAX/100));
             }
 
             // Play the game

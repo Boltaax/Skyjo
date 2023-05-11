@@ -77,7 +77,7 @@ public class Bot extends Player{
         int index = 0;
         for (int i = 0; i < hand.size(); i++)
         {
-            if (hand.get(i).getValue() > max)
+            if (hand.get(i).getValue() > max && hand.get(i).isVisible())
             {
                 max = hand.get(i).getValue();
                 index = i;
