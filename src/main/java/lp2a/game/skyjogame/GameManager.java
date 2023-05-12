@@ -264,7 +264,6 @@ public class GameManager {
      * This method check if a player has 3 same visible cards on a same column, if it's the case, it removes the cards from the column and put them in the discard pile
      */
     private static void checkForColumnToRemove() {
-        // todo fix bug when a column is removed, we dont go to the next player and we pick up cards for the discard pile infinitely
         // Count the number of columns in the player's hand (3 cards = 1 column, 6 cards = 2 columns, 9 cards = 3 columns, 12 cards = 4 columns)
         int nbColumns = 1;
         if (Skyjo.players.get(currentPlayerIndex).getHand().size() == 6) {

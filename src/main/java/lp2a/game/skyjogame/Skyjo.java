@@ -257,7 +257,7 @@ public class Skyjo extends Application {
                     }
                 }
                 // Click on the deck
-                if (gameState != GameState.PRE_ROUND && gameState != GameState.ROUND_START && gameState != GameState.DISCARD_CLICK) {
+                if (gameState != GameState.PRE_ROUND && gameState != GameState.ROUND_START && gameState != GameState.DISCARD_CLICK && gameState != GameState.DECK_CLICK) {
                     deck.getCards().get(deck.size()-1).clicked(mouseEvent);
                 }
                 // Click on the discard
