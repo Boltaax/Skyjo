@@ -20,7 +20,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -325,7 +324,7 @@ public class Skyjo extends Application {
                 // Deal cards
                 deck.deal(players);
                 // Pick up the first card of the deck and put it in the discard
-                discard.addCard(deck.pick_up_card());
+                discard.addCard(deck.pickUpCard());
                 //make the discard card visible
                 discard.setVisible(true);
                 // For each player in the game we assigned them a position in function of their position in the list
@@ -338,19 +337,19 @@ public class Skyjo extends Application {
             if(mainMenu.getButtonPlusBot().isClicked()){
                 mainMenu.getButtonPlusBot().setClicked(false);
                 if(mainMenu.getPlayables().size() < 8){
-                    mainMenu.add_bot();
+                    mainMenu.addBot();
                 }
             }
             if(mainMenu.getButtonPlusPlayer().isClicked()){
                 mainMenu.getButtonPlusPlayer().setClicked(false);
                 if(mainMenu.getPlayables().size() < 8){
-                     mainMenu.add_player();
+                     mainMenu.addPlayer();
                 }
             }
-            for(int i = 0; i< mainMenu.getSuppr_buttons().size(); i++){
-                if(mainMenu.getSuppr_buttons().get(i).isClicked()){
-                    mainMenu.getSuppr_buttons().get(i).setClicked(false);
-                    mainMenu.remove_playable(i);
+            for(int i = 0; i< mainMenu.getSupprButtons().size(); i++){
+                if(mainMenu.getSupprButtons().get(i).isClicked()){
+                    mainMenu.getSupprButtons().get(i).setClicked(false);
+                    mainMenu.removePlayable(i);
                 }
             }
         }

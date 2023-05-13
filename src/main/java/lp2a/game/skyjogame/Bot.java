@@ -1,9 +1,5 @@
 package lp2a.game.skyjogame;
 
-import javafx.scene.paint.Color;
-
-import java.util.*;
-
 /**
  *
  *
@@ -47,7 +43,7 @@ public class Bot extends Player{
                 break;
             case WAITING:
                 int value = Skyjo.discard.getCards().get(Skyjo.discard.size() - 1).getValue();
-                selectedCard = select_card(value);
+                selectedCard = selectCard(value);
                 if (selectedCard != null) // The value is better so take the last card in the discard
                 {
                     Skyjo.discard.setClicked(true);
@@ -62,7 +58,7 @@ public class Bot extends Player{
                 break;
             case DECK_CLICK:
                 value = Skyjo.discard.getCards().get(Skyjo.discard.size() - 1).getValue();
-                selectedCard = select_card(value);
+                selectedCard = selectCard(value);
                 if (selectedCard != null) {// The value is better so take this card
                     Skyjo.discard.setClicked(true);
                 } else {// The value is worse so reveal a card or exchange an unrevealed card
@@ -85,7 +81,7 @@ public class Bot extends Player{
     }
 
     // This function select the card to play
-    private Card select_card(int value) {
+    private Card selectCard(int value) {
         // Find the highest card in the hand
         int max = 0;
         int index = 0;

@@ -18,7 +18,6 @@ public class Player implements Playable {
     private String name;
     protected List<Card> hand;
     private int points;
-    private Card[][] grid = new Card[4][3]; // 4 rows and 3 columns
     private Color playercolor = Color.DARKBLUE;
     // For the bots
     protected static final Random random = new Random();
@@ -72,6 +71,7 @@ public class Player implements Playable {
     /**
      * This method calculates the number of card that are not facing up
      */
+    /*
     public int not_visibible_cards(){
         int val = 0;
         for (Card c : hand){
@@ -81,7 +81,7 @@ public class Player implements Playable {
         }
         return val;
     }
-
+    */
     public List<Card> getHand() {
         return hand;
     }
@@ -123,7 +123,7 @@ public class Player implements Playable {
     }
 
     /**
-     * This method display first the grid of the player and set the position of each card in the grid
+     * This method set the position of each card in the hand of the player according to a 4x3 grid
      */
     public void fillGrid(){
         int i = 0;
@@ -133,7 +133,6 @@ public class Player implements Playable {
                 j = 0;
                 i++; //If yes we go the next column
             }
-            //grid[i][j] = card; // We define the position of the card in the grid of each player (he's hand)
             card.setX(i*(card.getWidth()+5)+ x); // We define the position of the card for the display
             card.setY(j*(card.getHeight()+5)+ y);
             j++; // Adding 1 to the position in the line

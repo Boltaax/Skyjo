@@ -1,14 +1,8 @@
 
 package lp2a.game.skyjogame;
 
-import javafx.application.Platform;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static lp2a.game.skyjogame.Skyjo.*;
 
@@ -31,7 +25,7 @@ public class GameManager {
                 // deal the cards to the players
                 deck.deal(players);
                 // Pick up the first card of the deck and put it in the discard
-                discard.addCard(deck.pick_up_card());
+                discard.addCard(deck.pickUpCard());
                 //make the discard card visible
                 discard.setVisible(true);
                 // For each player in the game we assigned them a position in function of their position in the list
@@ -119,7 +113,7 @@ public class GameManager {
                     // reset the clicked state of the first card of the deck pile
                     deck.setClicked(false);
                     // put the card on the deck pile in the discard pile
-                    discard.addCard(deck.pick_up_card());
+                    discard.addCard(deck.pickUpCard());
                     // make the card visible
                     discard.setVisible(true);
                 }
@@ -210,7 +204,7 @@ public class GameManager {
      */
     private static void discardExchange(Player player, Card c, CardDeck discard) {
         // exchange the card of the player with the card on the discard pile
-        player.replaceCard(c, discard.pick_up_card());
+        player.replaceCard(c, discard.pickUpCard());
         // put the card of the player in the discard pile
         discard.addCard(c);
         // make the first card of the discard pile visible

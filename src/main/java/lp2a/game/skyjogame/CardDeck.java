@@ -1,7 +1,5 @@
 package lp2a.game.skyjogame;
 
-import javafx.scene.input.MouseEvent;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -91,7 +89,7 @@ public class CardDeck {
      * This method pick up the last card of the deck (the one which will be on the top of the deck)
      * @return the last card of the deck or null if the deck is empty
      */
-    public Card pick_up_card(){
+    public Card pickUpCard(){
         // return the last card of the deck, and remove it from the deck if it's not empty
         if (cards.size() > 0) {
             // return the last card of the deck and remove it from the deck
