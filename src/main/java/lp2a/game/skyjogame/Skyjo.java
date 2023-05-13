@@ -278,6 +278,11 @@ public class Skyjo extends Application {
 
     // tick, code that is executed every frame
 
+    /**
+     * This method is executed every frame for the game to be displayed
+     * @param gc the graphics context of the canvas
+     */
+
     public void tick(GraphicsContext gc){
         // If the game is not over, we draw the game
         if (!gameOver) {
@@ -355,6 +360,9 @@ public class Skyjo extends Application {
         }
     }
 
+    /**
+     * the method start the game
+     */
     public static void main(String[] args) {
         // launch the game
         launch();
