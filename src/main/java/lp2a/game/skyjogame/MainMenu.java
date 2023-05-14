@@ -32,7 +32,10 @@ public class MainMenu {
     public MainMenu(){
     }
 
-
+    /**
+     * This method display the main menu
+     * @param gc GraphicsContext
+     */
     public void draw(GraphicsContext gc){
         background.draw(gc);
         buttonExitRed.draw(gc);
@@ -45,6 +48,10 @@ public class MainMenu {
         displaySuppr(gc);
     }
 
+    /**
+     * This method display the labels of the players
+     * @param gc GraphicsContext
+     */
     public void displayLabels(GraphicsContext gc){
         for (int i = 0; i< playables.size(); i++){
             labels.get(i).setHeight(width/15);
@@ -87,6 +94,10 @@ public class MainMenu {
         }
     }
 
+    /**
+     * This method display the winner of the last game
+     * @param gc GraphicsContext
+     */
     public void displayWinner(GraphicsContext gc){
         if (Skyjo.lastWinner != null){
             gc.setFill(Color.BLACK);
@@ -101,6 +112,10 @@ public class MainMenu {
 
     }
 
+    /**
+     * This method display the suppr buttons of the playables
+     * @param gc GraphicsContext
+     */
     public void displaySuppr(GraphicsContext gc){
         for (int i = 0; i< playables.size(); i++){
             suppr_buttons.get(i).setHeight(width/40);
@@ -145,6 +160,10 @@ public class MainMenu {
         }
     }
 
+    /**
+     * This method display the names of the playables
+     * @param gc GraphicsContext
+     */
     public void displayPlayables(GraphicsContext gc){
         for (int i = 0; i< playables.size(); i++){
             gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"), width/50));
@@ -178,12 +197,19 @@ public class MainMenu {
         }
     }
 
+    /**
+     * This method remove a playable from the menu
+     * @param id id of the playable to remove
+     */
     public void removePlayable(int id){
         labels.remove(id);
         suppr_buttons.remove(id);
         playables.remove(id);
     }
 
+    /**
+     * This method add a playable to the menu by a dialog box
+     */
     public void addPlayer(){
         // Opening a new thread to overpass the main user interface and still display the Menu while opeing a dialog box in a showAndWait method.
         Platform.runLater(() ->{
@@ -245,6 +271,10 @@ public class MainMenu {
         labels.add(new MenuButton("player_label1.png"));
         suppr_buttons.add(new MenuButton("Button cross1.png"));
     }
+
+    /**
+     * This method add a bot to the menu
+     */
     public void addBot(){
         playables.add(new Bot());
         labels.add(new MenuButton("bot_label1.png"));

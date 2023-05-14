@@ -54,12 +54,18 @@ public class Card {
         return width;
     }
 
+    /**
+     * This method set the visibility of the card
+     * @param visible boolean
+     */
     public void setVisible(boolean visible) {
         this.visible = visible;
         if(this.isVisible()){
+            // If the card is visible, we decrease the number of pickable cards
             Skyjo.possible_cards[this.value+2] --;
             Skyjo.pickable_cards--;
         } else{
+            // If the card is not visible, we increase the number of pickable cards
             Skyjo.possible_cards[this.value+2] ++;
             Skyjo.pickable_cards++;
         }
@@ -125,6 +131,10 @@ public class Card {
         }
     }
 
+    /**
+     * This method return the image of the card
+     * @return Image
+     */
     public Image imgNb(){
         switch(this.value){
             case -2:

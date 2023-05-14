@@ -56,32 +56,8 @@ public class Player implements Playable {
             }
         }
         return true;
-
-        /* for debug
-        int count = 0;
-        for (Card card : hand) {
-            if(card.isVisible()){
-                count++;
-            }
-        }
-        return count == 2;
-        */
     }
 
-    /**
-     * This method calculates the number of card that are not facing up
-     */
-    /*
-    public int not_visibible_cards(){
-        int val = 0;
-        for (Card c : hand){
-            if(!c.isVisible()){
-                val++;
-            }
-        }
-        return val;
-    }
-    */
     public List<Card> getHand() {
         return hand;
     }
@@ -144,7 +120,7 @@ public class Player implements Playable {
     }
 
     /**
-     * This method calculate the points of the hand of the player
+     * This method calculate the points of the hand of the player (only the visible cards)
      * @return the total points of the hand
      */
     public int calculatePoints() {
@@ -157,6 +133,10 @@ public class Player implements Playable {
         return totalPoints;
     }
 
+    /**
+     * This method calculate the points of the hand of the player (all the cards)
+     * @return the total points of the hand
+     */
     public int calculateAll(){
         int totalPoints = 0;
         for (Card card : hand) {

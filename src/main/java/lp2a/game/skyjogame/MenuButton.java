@@ -61,6 +61,10 @@ public class MenuButton {
         this.y = y;
     }
 
+    /**
+     * This method set the visibility of the card depending on the position of the mouse
+     * @param e MouseEvent
+     */
     public void clicked(MouseEvent e){
         // Taking coordinates of where the mouse have been clicked
         double mouseX = e.getX();

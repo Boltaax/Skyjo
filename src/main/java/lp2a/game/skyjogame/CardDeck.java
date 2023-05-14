@@ -64,6 +64,7 @@ public class CardDeck {
      */
     public boolean isClicked() {
         if (this.getCards().size() > 0) {
+            // Return the clicked attribute of the last card of the deck
             return this.getCards().get(this.size() - 1).isClicked();
         } else {
             return false;
@@ -76,6 +77,7 @@ public class CardDeck {
      */
     public void setClicked(boolean clicked) {
         if (this.getCards().size() > 0) {
+            // Set the clicked attribute of the last card of the deck
             this.getCards().get(this.size() - 1).setClicked(clicked);
         }
     }

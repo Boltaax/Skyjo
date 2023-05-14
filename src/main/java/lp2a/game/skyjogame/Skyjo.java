@@ -42,7 +42,6 @@ public class Skyjo extends Application {
 
     // Methods
 
-
     /**
      * This method displays the player's hand on the screen at the correct position
      * @param id the id of the player to display
@@ -191,10 +190,9 @@ public class Skyjo extends Application {
     }
 
     /**
-     * This method displays the discard on the screen
+     * This method start the graphic interface
      * @param stage is basically all scenes and displayed things in the code are showed on the stage
      */
-
     @Override
     public void start(Stage stage) {
         try {
@@ -266,7 +264,6 @@ public class Skyjo extends Application {
             });
 
             // Start Game
-
             // Primary Scene
             stage.setScene(scene);
             stage.setTitle("Skyjo");
@@ -277,12 +274,10 @@ public class Skyjo extends Application {
     }
 
     // tick, code that is executed every frame
-
     /**
      * This method is executed every frame for the game to be displayed
      * @param gc the graphics context of the canvas
      */
-
     public void tick(GraphicsContext gc){
         // If the game is not over, we draw the game
         if (!gameOver) {
@@ -339,18 +334,21 @@ public class Skyjo extends Application {
                     players.get(i).fillGrid();
                 }
             }
+            // If the player clicks on the add bot button, we add a bot
             if(mainMenu.getButtonPlusBot().isClicked()){
                 mainMenu.getButtonPlusBot().setClicked(false);
                 if(mainMenu.getPlayables().size() < 8){
                     mainMenu.addBot();
                 }
             }
+            // If the player clicks on the add player button, we add a player
             if(mainMenu.getButtonPlusPlayer().isClicked()){
                 mainMenu.getButtonPlusPlayer().setClicked(false);
                 if(mainMenu.getPlayables().size() < 8){
                      mainMenu.addPlayer();
                 }
             }
+            // If the player clicks on the remove button, we remove the player
             for(int i = 0; i< mainMenu.getSupprButtons().size(); i++){
                 if(mainMenu.getSupprButtons().get(i).isClicked()){
                     mainMenu.getSupprButtons().get(i).setClicked(false);
