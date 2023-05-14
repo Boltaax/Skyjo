@@ -18,7 +18,6 @@ public class Player implements Playable {
     private String name;
     protected List<Card> hand;
     private int points;
-    private Card[][] grid = new Card[4][3]; // 4 rows and 3 columns
     private Color playercolor = Color.DARKBLUE;
     // For the bots
     protected static final Random random = new Random();
@@ -133,7 +132,6 @@ public class Player implements Playable {
                 j = 0;
                 i++; //If yes we go the next column
             }
-            //grid[i][j] = card; // We define the position of the card in the grid of each player (he's hand)
             card.setX(i*(card.getWidth()+5)+ x); // We define the position of the card for the display
             card.setY(j*(card.getHeight()+5)+ y);
             j++; // Adding 1 to the position in the line
