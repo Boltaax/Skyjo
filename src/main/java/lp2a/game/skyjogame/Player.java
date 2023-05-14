@@ -71,6 +71,7 @@ public class Player implements Playable {
     /**
      * This method calculates the number of card that are not facing up
      */
+    /*
     public int not_visibible_cards(){
         int val = 0;
         for (Card c : hand){
@@ -80,7 +81,7 @@ public class Player implements Playable {
         }
         return val;
     }
-
+    */
     public List<Card> getHand() {
         return hand;
     }
@@ -122,7 +123,7 @@ public class Player implements Playable {
     }
 
     /**
-     * This method display first the grid of the player and set the position of each card in the grid
+     * This method set the position of each card in the hand of the player according to a 4x3 grid
      */
     public void fillGrid(){
         int i = 0;

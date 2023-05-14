@@ -110,7 +110,7 @@ public class Card {
      */
     public void draw(GraphicsContext gc) {
         Image background = new Image(getClass().getResourceAsStream("Cards/Skyjo card back0.png"));
-        Image front = img_nb();
+        Image front = imgNb();
         // Fill the border of the card with orange if the card is clicked
         if (this.clicked) {
             gc.setFill(Color.RED);
@@ -125,7 +125,7 @@ public class Card {
         }
     }
 
-    public Image img_nb(){
+    public Image imgNb(){
         switch(this.value){
             case -2:
                 return new Image(getClass().getResourceAsStream("Cards/Skyjo card -2.png"));

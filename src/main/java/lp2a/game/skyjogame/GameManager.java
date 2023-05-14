@@ -1,14 +1,8 @@
 
 package lp2a.game.skyjogame;
 
-import javafx.application.Platform;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static lp2a.game.skyjogame.Skyjo.*;
 
@@ -31,7 +25,7 @@ public class GameManager {
                 // deal the cards to the players
                 deck.deal(players);
                 // Pick up the first card of the deck and put it in the discard
-                discard.addCard(deck.pick_up_card());
+                discard.addCard(deck.pickUpCard());
                 //make the discard card visible
                 discard.setVisible(true);
                 // For each player in the game we assigned them a position in function of their position in the list
@@ -119,7 +113,7 @@ public class GameManager {
                     // reset the clicked state of the first card of the deck pile
                     deck.setClicked(false);
                     // put the card on the deck pile in the discard pile
-                    discard.addCard(deck.pick_up_card());
+                    discard.addCard(deck.pickUpCard());
                     // make the card visible
                     discard.setVisible(true);
                 }
@@ -210,7 +204,7 @@ public class GameManager {
      */
     private static void discardExchange(Player player, Card c, CardDeck discard) {
         // exchange the card of the player with the card on the discard pile
-        player.replaceCard(c, discard.pick_up_card());
+        player.replaceCard(c, discard.pickUpCard());
         // put the card of the player in the discard pile
         discard.addCard(c);
         // make the first card of the discard pile visible
@@ -264,7 +258,6 @@ public class GameManager {
      * This method check if a player has 3 same visible cards on a same column, if it's the case, it removes the cards from the column and put them in the discard pile
      */
     private static void checkForColumnToRemove() {
-        // todo fix bug when a column is removed, we dont go to the next player and we pick up cards for the discard pile infinitely
         // Count the number of columns in the player's hand (3 cards = 1 column, 6 cards = 2 columns, 9 cards = 3 columns, 12 cards = 4 columns)
         int nbColumns = 1;
         if (Skyjo.players.get(currentPlayerIndex).getHand().size() == 6) {

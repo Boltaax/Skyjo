@@ -40,12 +40,12 @@ public class MainMenu {
         buttonPlusPlayer.draw(gc);
         buttonOkGreen.draw(gc);
         displayWinner(gc);
-        display_labels(gc);
-        display_playables(gc);
-        display_suppr(gc);
+        displayLabels(gc);
+        displayPlayables(gc);
+        displaySuppr(gc);
     }
 
-    public void display_labels(GraphicsContext gc){
+    public void displayLabels(GraphicsContext gc){
         for (int i = 0; i< playables.size(); i++){
             labels.get(i).setHeight(width/15);
             labels.get(i).setWidth(width/5);
@@ -101,7 +101,7 @@ public class MainMenu {
 
     }
 
-    public void display_suppr(GraphicsContext gc){
+    public void displaySuppr(GraphicsContext gc){
         for (int i = 0; i< playables.size(); i++){
             suppr_buttons.get(i).setHeight(width/40);
             suppr_buttons.get(i).setWidth(width/40);
@@ -145,7 +145,7 @@ public class MainMenu {
         }
     }
 
-    public void display_playables(GraphicsContext gc){
+    public void displayPlayables(GraphicsContext gc){
         for (int i = 0; i< playables.size(); i++){
             gc.setFont(Font.loadFont(getClass().getResourceAsStream("Gameria.ttf"), width/50));
             gc.setFill(playables.get(i).getPlayercolor());
@@ -178,13 +178,13 @@ public class MainMenu {
         }
     }
 
-    public void remove_playable(int id){
+    public void removePlayable(int id){
         labels.remove(id);
         suppr_buttons.remove(id);
         playables.remove(id);
     }
 
-    public void add_player(){
+    public void addPlayer(){
         // Opening a new thread to overpass the main user interface and still display the Menu while opeing a dialog box in a showAndWait method.
         Platform.runLater(() ->{
             // Creating a dialog box to add the name and color of the new player
@@ -245,13 +245,13 @@ public class MainMenu {
         labels.add(new MenuButton("player_label1.png"));
         suppr_buttons.add(new MenuButton("Button cross1.png"));
     }
-    public void add_bot(){
+    public void addBot(){
         playables.add(new Bot());
         labels.add(new MenuButton("bot_label1.png"));
         suppr_buttons.add(new MenuButton("Button cross1.png"));
     }
 
-    public ArrayList<MenuButton> getSuppr_buttons() {
+    public ArrayList<MenuButton> getSupprButtons() {
         return suppr_buttons;
     }
 
